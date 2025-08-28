@@ -7,7 +7,7 @@ id_usuario int auto_increment primary key,
 nombre varchar(100) not null,
 correo varchar(100) unique,
 usuario varchar(50) not null unique,
-contraseña varchar(255) not null,
+contraseña varchar(255) not null unique,
 rol Enum('administrador', 'cajero', 'mesero') not null
 );
 
