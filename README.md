@@ -9,3 +9,9 @@ Isabella Murillo
 Juan Vargas 
 Shayra Melo 
 Yeison Parra
+
+
+
+Enlaces boostrap:
+https://getbootstrap.com/docs/5.0/examples/heroes/
+https://getbootstrap.com/docs/5.0/examples/
