@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Mesas - Frontend</title>
+</head>
+<body>
+  <h1>Mesas</h1>
+
+  <section>
+    <h2>Crear mesa</h2>
+    <form id="formMesa">
+      <input type="number" id="numero" placeholder="Número (ej: 4)" required><br>
+      <input type="text" id="tipo" placeholder="Tipo (ej: Interior, Terraza)" required><br>
+      <select id="estado">
+        <option value="libre">libre</option>
+        <option value="ocupada">ocupada</option>
+        <option value="reservada">reservada</option>
+      </select><br>
+      <button type="submit">Crear mesa</button>
+    </form>
+  </section>
+
+  <hr>
+
+  <section>
+    <h2>Lista de mesas</h2>
+    <button id="btnCargarMesas">Cargar mesas</button>
+    <ul id="listaMesas"></ul>
+  </section>
+
+  <script src="mesas.js"></script>
+</body>
+</html>

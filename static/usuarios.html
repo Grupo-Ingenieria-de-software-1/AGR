@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestión de Usuarios</title>
+</head>
+<body>
+  <h1>Usuarios</h1>
+
+  <!-- Formulario para crear usuario -->
+  <form id="formUsuario">  <!-- le da un identificador unico para que pueda ser manipulado por Javascrip -->
+    <input type="text" id="nombre" placeholder="Nombre" required><br>
+    <!-- Le da un identificador unico, para el js. el placeholder es el texto en gris o tempora, required significa que hay que llenarlo antes de enviar el formulario -->
+    <input type="email" id="correo" placeholder="Correo"><br>
+    <input type="text" id="usuario" placeholder="Usuario" required><br>
+    <input type="password" id="contraseña" placeholder="Contraseña" required><br>
+    <select id="rol">
+      <option value="administrador">Administrador</option> <!-- el value va a ser lo que se le envie al servidor cuando se seleccione la opcion osea "administrador" -->
+      <option value="cajero">Cajero</option>
+      <option value="mesero">Mesero</option>
+    </select><br>
+    <button type="submit">Crear</button>
+  </form>
+
+  <hr> <!-- la linea horizontal que separa -->
+
+  <!-- Lista de usuarios -->
+  <h2>Usuarios registrados</h2>
+  <button onclick="cargarUsuarios()">Ver usuarios</button>  <!-- Este crea un boton que al presionado (onclick)ejecutara una fuincion de js llamada cargar usuarios() -->
+  <ul id="listaUsuarios"></ul> <!-- Esta crea una lista desordenada con viñetas y le da un identificador unico para que el codigo de js agregue dinamicamente los elementos de la la lista de usuarios aqui -->
+
+  <!-- Aquí conectamos el JS -->
+  <script src="usuarios.js"></script> <!-- Enlace al archivo js que es el que va a manejar la logica de aqui al backend y cargar los usuarios -->
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Crear Pedido - Mesero</title>
+</head>
+<body>
+  <h1>Crear Pedido</h1>
+
+  <form id="pedidoForm">
+    <label>Mesa:</label>
+    <input type="number" id="id_mesa" required><br><br>
+
+    <label>ID Mesero:</label>
+    <input type="number" id="id_usuario" required><br><br>
+
+    <label>Observaciones:</label>
+    <textarea id="observaciones"></textarea><br><br>
+
+    <button type="submit">Enviar Pedido</button>
+  </form>
+
+  <p id="resultado"></p>
+
+  <script>
+    document.getElementById("pedidoForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const pedido = {
+        id_mesa: document.getElementById("id_mesa").value,
+        id_usuario: document.getElementById("id_usuario").value,
+        observaciones: document.getElementById("observaciones").value
+      };
+
+      const response = await fetch("http://127.0.0.1:8000/pedidos/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(pedido)
+      });
+
+      const data = await response.json();
+      document.getElementById("resultado").innerText = "Pedido creado con ID: " + data.id_pedido;
+    });
+  </script>
+</body>
+</html>

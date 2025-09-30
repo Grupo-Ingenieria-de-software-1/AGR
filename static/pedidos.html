@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Pedidos - Frontend</title>
+</head>
+<body>
+  <h1>Pedidos</h1>
+
+  <section>
+    <h2>Crear pedido</h2>
+    <form id="formPedido">
+      <label>Mesa: <select id="selectMesa"></select></label><br>
+      <label>Mesero (usuario): <select id="selectUsuario"></select></label><br>
+      <textarea id="observaciones" rows="3" cols="30" placeholder="Observaciones (opcional)"></textarea><br>
+      <button type="submit">Crear pedido</button>
+    </form>
+  </section>
+
+  <hr>
+
+  <section>
+    <h2>Lista de pedidos</h2>
+    <button id="btnCargarPedidos">Cargar pedidos</button>
+    <ul id="listaPedidos"></ul>
+  </section>
+
+  <script src="pedidos.js"></script>
+</body>
+</html>
