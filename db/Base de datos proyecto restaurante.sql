@@ -11,7 +11,7 @@ create table if not exists mesero_demo (
 create table if not exists usuarios (
 id_usuario int auto_increment primary key,
 nombre varchar(100) not null,
-correo varchar(100) unique,
+correo varchar(100) not null unique,
 usuario varchar(50) not null unique,
 contraseña varchar(255) not null unique,
 rol Enum('administrador', 'cajero', 'mesero') not null
@@ -142,3 +142,6 @@ total_dia decimal(12,2) not null,
 generado_por int,
 foreign key (generado_por) references usuarios(id_usuario)
 )engine=InnoDB;
+
+ALTER TABLE usuarios
+MODIFY correo VARCHAR(100) NOT NULL;
