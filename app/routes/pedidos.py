@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session 
-from app import models, schemas, database 
+from sqlalchemy.orm import Session, joinedload
+from app import models, schemas, database
 from ..database import get_db
 
 
@@ -11,7 +11,7 @@ router=APIRouter(
 
 @router.get("/", response_model=list[schemas.PedidoOut])
 def listar_pedidos(db: Session=Depends(get_db)):
-    pedidos= db.query(models.Pedido).all()
+    pedidos= (db.query(models.Pedido).options(joinedload(models.Pedido.detalle_pedido)).all())
     return pedidos
 
 
@@ -37,6 +37,103 @@ def crear_pedido(pedido: schemas.PedidoCreate, db: Session= Depends(get_db)):
     )
 
     db.add(nuevo_pedido)
+    
+    
+
+   
+
+
+    for item in pedido.detalles:
+        producto = db.query(models.Producto).filter(models.Producto.id_producto == item.id_producto).first()
+        if not producto:
+            raise HTTPException(status_code=404, detail=f"El producto con id {item.id_producto} no existe")
+
+        nuevo_detalle = models.Detalle_Pedido(
+            id_pedido=nuevo_pedido.id_pedido,
+            id_producto=item.id_producto,
+            cantidad=item.cantidad,
+            precio_unitario=producto.precio,
+            
+        )
+        nuevo_pedido.detalle_pedido.append(nuevo_detalle)
+
+        
+        
     db.commit()
-    db.refresh(nuevo_pedido)
+
+
+    pedido_db=(
+        db.query(models.Pedido)
+        .options(joinedload(models.Pedido.detalle_pedido))
+        .filter(models.Pedido.id_pedido== nuevo_pedido.id_pedido)
+        .first()
+    )
+
+
+
+
     return nuevo_pedido
+
+
+
+
+@router.put("/{pedido_id}", response_model=schemas.PedidoOut)
+def actualizar_pedido(pedido_id: int, pedido: schemas.PedidoCreate, db: Session = Depends(get_db)):
+    # Buscar el pedido
+    pedido_db = db.query(models.Pedido).filter(models.Pedido.id_pedido == pedido_id).first()
+    if not pedido_db:
+        raise HTTPException(status_code=404, detail="El pedido no existe")
+
+    # Validar mesa
+    mesa = db.query(models.Mesa).filter(models.Mesa.id_mesa == pedido.id_mesa).first()
+    if not mesa:
+        raise HTTPException(status_code=404, detail="La mesa no existe")
+
+    # Validar usuario
+    usuario = db.query(models.Usuario).filter(models.Usuario.id_usuario == pedido.id_usuario).first()
+    if not usuario:
+        raise HTTPException(status_code=404, detail="El usuario no existe")
+
+    # Actualizar datos del pedido
+    pedido_db.id_mesa = pedido.id_mesa
+    pedido_db.id_usuario = pedido.id_usuario
+    pedido_db.observaciones = pedido.observaciones
+
+    # Eliminar los detalles actuales
+    db.query(models.Detalle_Pedido).filter(models.Detalle_Pedido.id_pedido == pedido_id).delete()
+
+    # Agregar los nuevos detalles
+    for item in pedido.detalles:
+        producto = db.query(models.Producto).filter(models.Producto.id_producto == item.id_producto).first()
+        if not producto:
+            raise HTTPException(status_code=404, detail=f"El producto con id {item.id_producto} no existe")
+
+        nuevo_detalle = models.Detalle_Pedido(
+            id_pedido=pedido_db.id_pedido,
+            id_producto=item.id_producto,
+            cantidad=item.cantidad,
+            precio_unitario=producto.precio,
+        )
+        db.add(nuevo_detalle)
+
+    db.commit()
+
+    pedido_actualizado = (
+        db.query(models.Pedido)
+        .options(joinedload(models.Pedido.detalle_pedido))
+        .filter(models.Pedido.id_pedido == pedido_id)
+        .first()
+    )
+
+    return pedido_actualizado
+
+@router.delete("/{pedido_id}", response_model=dict)
+def eliminar_pedido(pedido_id: int, db: Session = Depends(get_db)):
+    pedido = db.query(models.Pedido).filter(models.Pedido.id_pedido == pedido_id).first()
+    if not pedido:
+        raise HTTPException(status_code=404, detail="El pedido no existe")
+
+    db.delete(pedido)
+    db.commit()
+
+    return {"message": f"Pedido {pedido_id} eliminado correctamente"}

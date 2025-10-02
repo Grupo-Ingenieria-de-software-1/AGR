@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List
 from datetime import datetime 
 
 
@@ -36,11 +36,50 @@ class MesaOut(BaseModel):
         from_attributes= True
 
 
+class ProductoCreate(BaseModel):
+    nombre:str
+    precio:float
+    categoria: str 
+    disponible: Optional[bool]=True
+
+class ProductoOut(BaseModel):
+    id_producto: int
+    nombre: str
+    precio: float 
+    categoria: str
+    disponible: bool
+
+    class Config:
+        from_attributes= True
+
+
+#producto dentro de un detalle
+class ProductoDetalle(BaseModel):
+    id_producto: int
+    cantidad:int
+    observaciones: Optional[str]= None
+
+
+
 #El imput al crear un pedido
 class PedidoCreate(BaseModel):
     id_mesa:int
     id_usuario: int 
     observaciones: Optional[str]=None
+    detalles: list[ProductoDetalle]
+
+
+class DetallePedidoOut(BaseModel):
+    id_detalle: int
+    id_pedido: int
+    id_producto: int
+    cantidad: int
+    precio_unitario: float
+    subtotal: float
+
+    class Config:
+        from_attributes=True
+
 
 class PedidoOut(BaseModel):
     id_pedido: int
@@ -49,6 +88,11 @@ class PedidoOut(BaseModel):
     id_usuario: int
     observaciones: Optional[str]
     estado:str
+    detalle_pedido: List[DetallePedidoOut]
     
     class Config:
         from_attributes=True
+
+
+
+

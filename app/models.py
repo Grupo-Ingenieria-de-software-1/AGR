@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Text, Enum, TIMESTAMP, func
+from sqlalchemy import Column, Integer, String, ForeignKey, Text, Enum, Boolean, Numeric, TIMESTAMP, func
 from sqlalchemy.orm import  relationship
 from app.database import Base
 
@@ -40,3 +40,29 @@ class Pedido(Base):
     # Relaciones
     usuario = relationship("Usuario", back_populates="pedidos")   # se asocia con el mesero que hizo el pedido
     mesa= relationship("Mesa", back_populates="pedidos")
+    detalle_pedido = relationship("Detalle_Pedido", back_populates="pedido", cascade="all, delete-orphan")
+
+
+class Detalle_Pedido(Base):
+        __tablename__= "detalle_pedido"
+
+        id_detalle= Column(Integer, primary_key=True, index=True)
+        id_pedido= Column(Integer, ForeignKey("pedidos.id_pedido"), nullable=False)
+        id_producto= Column(Integer, ForeignKey("productos.id_producto"), nullable= False)
+        cantidad= Column(Integer, default=1, nullable=False)
+        precio_unitario= Column(Numeric(10,2), nullable=False) 
+        subtotal= Column(Numeric(10,2), nullable=False, server_default="0.00")
+        
+        pedido = relationship("Pedido", back_populates= "detalle_pedido")
+        producto =relationship("Producto", back_populates="detalle_pedido")
+
+class Producto(Base): 
+    __tablename__= "productos"
+
+    id_producto=Column(Integer, primary_key=True, index=True)
+    nombre=Column(String(100), nullable=False)
+    precio=Column(Numeric(10,2), nullable=False)
+    categoria=Column(Enum("comida", "bebida", "postre", 'otro', name="categoria_producto"), nullable=False)
+    disponible=Column(Boolean, default=True)
+
+    detalle_pedido= relationship("Detalle_Pedido", back_populates="producto")

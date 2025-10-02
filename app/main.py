@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from app.routes import pedidos
 from app.routes import usuario
 from app.routes import mesa
+from app.routes import productos
 from app.database import engine, Base
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
@@ -12,7 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 # Crea las tablas si no existen
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="API Mesero")
+app = FastAPI(title="AGR")
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
@@ -24,11 +25,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Incluir las rutas:
 app.include_router(mesa.router)
 
 app.include_router(usuario.router)
-# Incluir las rutas
+
 app.include_router(pedidos.router)
+
+app.include_router(productos.router)
 
 @app.get("/")
 def read_root():
