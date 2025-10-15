@@ -11,7 +11,7 @@ router=APIRouter(
 
 @router.get("/", response_model=list[schemas.PedidoOut])
 def listar_pedidos(db: Session=Depends(get_db)):
-    pedidos= (db.query(models.Pedido).options(joinedload(models.Pedido.detalle_pedido)).all())
+    pedidos= (db.query(models.Pedido).options(joinedload(models.Pedido.detalle_pedido).joinedload(models.Detalle_Pedido.producto)).all())
     return pedidos
 
 
@@ -74,7 +74,21 @@ def crear_pedido(pedido: schemas.PedidoCreate, db: Session= Depends(get_db)):
 
     return nuevo_pedido
 
+@router.get("/{pedido_id}", response_model=schemas.PedidoOut)
+def obtener_pedido(pedido_id: int, db: Session = Depends(get_db)):
+    # Buscar el pedido por su ID
+    pedido = (
+        db.query(models.Pedido)
+        .options(joinedload(models.Pedido.detalle_pedido).joinedload(models.Detalle_Pedido.producto))
+        .filter(models.Pedido.id_pedido == pedido_id)
+        .first()
+    )
+    
+    # Si no se encuentra, lanzar un error 404
+    if not pedido:
+        raise HTTPException(status_code=404, detail="El pedido no existe")
 
+    return pedido
 
 
 @router.put("/{pedido_id}", response_model=schemas.PedidoOut)

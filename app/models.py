@@ -62,7 +62,7 @@ class Producto(Base):
     id_producto=Column(Integer, primary_key=True, index=True)
     nombre=Column(String(100), nullable=False)
     precio=Column(Numeric(10,2), nullable=False)
-    categoria=Column(Enum("comida", "bebida", "postre", 'otro', name="categoria_producto"), nullable=False)
+    categoria=Column(Enum('entrada', 'fuerte', 'bebida', 'ensalada', 'postre', 'adicion', 'otro'), nullable=False)
     disponible=Column(Boolean, default=True)
 
     detalle_pedido= relationship("Detalle_Pedido", back_populates="producto")

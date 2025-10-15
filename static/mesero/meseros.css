@@ -1,0 +1,102 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Sunday', Sans-Serif;
+    background-color: #d4c4b0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 493px;
+    aspect-ratio: 493/340; /* antes 493/280 — esto da más altura total */
+    background-color: #d4c4b0;
+    position: relative;
+}
+
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: transparent;
+    padding: 8px 15px;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: #4a2c1f;
+}
+
+.content-box {
+    position: absolute;
+    top: 28px;
+    left: 15px;
+    right: 15px;
+    bottom: 10px; /* antes 15px — ahora hay un poquito más de espacio */
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 30px; /* antes 30px, más relleno interior */
+}
+
+.welcome-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #4a2c1f;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.instruction-text {
+    font-size: 13px;
+    color: #4a2c1f;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.button-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    width: 100%;
+    max-width: 350px;
+}
+
+.menu-button {
+    background-color: #a67c52;
+    color: white;
+    border: none;
+    padding: 25px 20px;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Sunday', Sans-Serif;
+    border-radius: 3px;
+}
+
+.menu-button:hover {
+    background-color: #8a6644;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.menu-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}

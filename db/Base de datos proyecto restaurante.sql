@@ -145,3 +145,8 @@ foreign key (generado_por) references usuarios(id_usuario)
 
 ALTER TABLE usuarios
 MODIFY correo VARCHAR(100) NOT NULL;
+
+ALTER TABLE productos 
+MODIFY COLUMN categoria 
+ENUM('entrada', 'fuerte', 'bebida', 'ensalada', 'postre', 'adicion', 'otro') 
+NOT NULL;

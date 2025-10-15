@@ -76,6 +76,7 @@ class DetallePedidoOut(BaseModel):
     cantidad: int
     precio_unitario: float
     subtotal: float
+    producto: Optional[ProductoOut]
 
     class Config:
         from_attributes=True
