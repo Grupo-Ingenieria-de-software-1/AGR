@@ -1,26 +1,34 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MESEROS</title>
+
+    <!-- Fuente -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sunday:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="meseros.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="meseros.css?v=2">
+
+    <!-- Descripción SEO -->
+    <meta name="description" content="Panel de meseros para gestionar pedidos, reservas y mesas del restaurante.">
 </head>
 <body>
     <div class="container">
         <div class="header">MESEROS</div>
+
         <div class="content-box">
-            <div class="welcome-text">BIENVENIDO!</div>
-            <div class="instruction-text">Por favor elige una opción:</div>
+            <div class="welcome-text">¡BIENVENIDO!</div>
+            <div class="instruction-text">Por favor, elige una opción:</div>
+
             <div class="button-grid">
-                <button class="menu-button" data-option="pedido">PEDIDO</button>
-                <button class="menu-button" data-option="estado">ESTADO DE PLATOS</button>
-                <button class="menu-button" data-option="reservas">RESERVAS</button>
-                <button class="menu-button" data-option="mesas">MESAS</button>
+                <button class="menu-button" data-option="pedido" title="Ir al módulo de pedidos">PEDIDO</button>
+                <button class="menu-button" data-option="unirm" title="Unir mesas">UNIR MESAS</button>
+                <button class="menu-button" data-option="separarm" title="Separar mesas">SEPARAR MESAS</button>
+                <button class="menu-button" data-option="reservas" title="Ver reservas">RESERVAS</button>
             </div>
         </div>
     </div>

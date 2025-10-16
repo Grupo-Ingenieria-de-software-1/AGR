@@ -32,11 +32,18 @@ function handleButtonClick(event) {
             // window.location.href = 'reservas.html';
             alert('Has seleccionado: RESERVAS');
             break;
-        case 'mesas':
+        case 'unirm':
             // Redirigir a la página de mesas
-             window.location.href = 'mesas.html';
-            
+            // window.location.href = 'mesas.html';
+            alert('Has seleccionado: UNIR MESAS');
             break;
+
+        case 'separarm':
+            // Redirigir a la página de mesas
+            // window.location.href = 'mesas.html';
+            alert('Has seleccionado: SEPARAR MESAS');
+            break;
+
         default:
             console.error('Opción no reconocida');
     }

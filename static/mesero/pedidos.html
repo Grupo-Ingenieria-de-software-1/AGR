@@ -10,7 +10,7 @@
     <section class="menu-principal">
         <h1>PEDIDO</h1>
         <h2>INGRESE EL NÚMERO DE MESA:</h2>
-        <input type="text" id="mesa" placeholder="Número de la mesa">
+        <input type="text" id="mesa" placeholder="Número de la mesa" required min="1" step="1">
 
         <div class="opciones">
             <button data-interfaz="crearPedido">CREAR PEDIDO</button>
@@ -131,6 +131,23 @@
     </section>
 
     <!-- Script -->
-    <script src="pedidos.js"></script>
+    <script src="pedidos.js">
+
+       // Desactiva botones hasta que el número de mesa sea válido
+  const inputMesa = document.getElementById('mesa');
+  const opciones = document.querySelectorAll('.opciones button');
+  const confirmar = document.getElementById('btnConfirmarMesa');
+
+  function validarMesa() {
+    const valido = inputMesa.value.trim() !== '' && parseInt(inputMesa.value) > 0;
+    opciones.forEach(btn => {
+      btn.disabled = !valido;
+    });
+    confirmar.disabled = !valido;
+  }
+
+  inputMesa.addEventListener('input', validarMesa);
+  validarMesa(); // verificar al cargar 
+    </script>
 </body>
 </html>
