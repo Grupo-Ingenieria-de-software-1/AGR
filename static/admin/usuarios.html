@@ -3,33 +3,76 @@
 <head>
   <meta charset="UTF-8">
   <title>Gestión de Usuarios</title>
+  <style>
+    /* Un poco de estilo para que el botón quede junto al input */
+    .password-container {
+      position: relative;
+      display: inline-block;
+    }
+    .password-container input {
+      padding-right: 40px; /* deja espacio al final para el botón */
+    }
+    .toggle-password {
+      position: absolute;
+      right: 5px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      color: #007bff;
+    }
+  </style>
 </head>
 <body>
   <h1>Usuarios</h1>
 
   <!-- Formulario para crear usuario -->
-  <form id="formUsuario">  <!-- le da un identificador unico para que pueda ser manipulado por Javascrip -->
+  <form id="formUsuario">
     <input type="text" id="nombre" placeholder="Nombre" required><br>
-    <!-- Le da un identificador unico, para el js. el placeholder es el texto en gris o tempora, required significa que hay que llenarlo antes de enviar el formulario -->
     <input type="email" id="correo" placeholder="Correo"><br>
     <input type="text" id="usuario" placeholder="Usuario" required><br>
-    <input type="password" id="contraseña" placeholder="Contraseña" required><br>
+
+    <!-- Campo de contraseña con botón para mostrar/ocultar -->
+    <div class="password-container">
+      <input type="password" id="contraseña" placeholder="Contraseña" required>
+      <button type="button" class="toggle-password" onclick="togglePassword()">👁️</button>
+    </div>
+    <br>
+
     <select id="rol">
-      <option value="administrador">Administrador</option> <!-- el value va a ser lo que se le envie al servidor cuando se seleccione la opcion osea "administrador" -->
+      <option value="administrador">Administrador</option>
       <option value="cajero">Cajero</option>
       <option value="mesero">Mesero</option>
     </select><br>
     <button type="submit">Crear</button>
   </form>
 
-  <hr> <!-- la linea horizontal que separa -->
+  <hr>
 
   <!-- Lista de usuarios -->
   <h2>Usuarios registrados</h2>
-  <button onclick="cargarUsuarios()">Ver usuarios</button>  <!-- Este crea un boton que al presionado (onclick)ejecutara una fuincion de js llamada cargar usuarios() -->
-  <ul id="listaUsuarios"></ul> <!-- Esta crea una lista desordenada con viñetas y le da un identificador unico para que el codigo de js agregue dinamicamente los elementos de la la lista de usuarios aqui -->
+  <button onclick="cargarUsuarios()">Ver usuarios</button>
+  <ul id="listaUsuarios"></ul>
 
   <!-- Aquí conectamos el JS -->
-  <script src="usuarios.js"></script> <!-- Enlace al archivo js que es el que va a manejar la logica de aqui al backend y cargar los usuarios -->
+  <script src="usuarios.js"></script>
+
+  <!-- Script para mostrar/ocultar la contraseña -->
+  <script>
+    function togglePassword() {
+      const passwordInput = document.getElementById("contraseña");
+      const toggleButton = document.querySelector(".toggle-password");
+
+      if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        toggleButton.textContent = "🙈";
+      } else {
+        passwordInput.type = "password";
+        toggleButton.textContent = "👁️";
+      }
+    }
+  </script>
 </body>
 </html>

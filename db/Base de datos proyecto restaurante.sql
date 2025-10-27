@@ -12,8 +12,8 @@ create table if not exists usuarios (
 id_usuario int auto_increment primary key,
 nombre varchar(100) not null,
 correo varchar(100) not null unique,
-usuario varchar(50) not null unique,
-contraseña varchar(255) not null unique,
+usuario varchar(50) not null,
+contraseña varchar(255) not null,
 rol Enum('administrador', 'cajero', 'mesero') not null
 )engine=InnoDB;
 

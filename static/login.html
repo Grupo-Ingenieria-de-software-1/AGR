@@ -13,22 +13,40 @@
     <div class="login-header">
     <div class="formulario">
         
-        <h1> Bienvenido</h1>
-        <form method="post">
-            <div class="username">
-                <label>Login</label>
-                <input type="text" required >
-                
-            </div>
-            <div class="contrasena">
-                <label>password</label>
-                <input type="password" required>
-                
-            </div>
-            <div class="recordar">¿Olvidaste tu contraseña</div>
-            <input type="submit" value="Iniciar Sesion">
-        </div>
-    </form>
+    <h1> Bienvenido</h1>
+        <form action="/auth/login" method="post">
+         <div class="username">
+             <label>Usuario</label>
+             <input type="text" name="usuario" required>
+         </div>
+           <div class="contrasena">
+            <label>Contraseña</label>
+            <input type="password" id="contraseñaus" name="contraseña" required>
+            <button type="button" class="toggle-password" onclick="togglePassword()">👁️</button>
+           </div>
+      <input type="submit" value="Iniciar Sesión">
+
+  </form>    
+
+
+  <script src="login.js">
+
+  </script>
+
+   <script>
+    function togglePassword() {
+      const passwordInput = document.getElementById("contraseñaus");
+      const toggleButton = document.querySelector(".toggle-password");
+
+      if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        toggleButton.textContent = "🙈";
+      } else {
+        passwordInput.type = "password";
+        toggleButton.textContent = "👁️";
+      }
+    }
+  </script>
 
 </body>
 </html>

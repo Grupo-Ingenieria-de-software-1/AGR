@@ -9,9 +9,9 @@ class Usuario(Base):
     __tablename__="usuarios"
     id_usuario= Column(Integer, primary_key=True, index=True)
     nombre= Column(String(100), nullable=False)
-    correo= Column(String(100), unique= False )
-    usuario= Column(String(100), nullable=False, unique=True)
-    contraseña= Column(String(100), nullable=False, unique=True)
+    correo= Column(String(100), unique=True, nullable=False)
+    usuario= Column(String(100), nullable=False)
+    contraseña= Column(String(100), nullable=False)
     rol=Column(Enum('administrador', 'cajero', 'mesero', name="rol_usuario"), nullable=False)
 
     pedidos= relationship("Pedido", back_populates= "usuario")
