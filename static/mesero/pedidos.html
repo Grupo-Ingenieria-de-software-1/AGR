@@ -1,7 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Pedidos</title>
     <link rel="stylesheet" href="pedidos.css">
 </head>
@@ -10,8 +12,7 @@
     <section class="menu-principal">
         <h1>PEDIDO</h1>
         <h2>INGRESE EL NÚMERO DE MESA:</h2>
-        <input type="text" id="mesa" placeholder="Número de la mesa" required min="1" step="1">
-
+        <input type="text" id="mesa" placeholder="Número de la mesa" required>
         <div class="opciones">
             <button data-interfaz="crearPedido">CREAR PEDIDO</button>
             <button data-interfaz="editarPedido">EDITAR PEDIDO</button>
@@ -19,7 +20,6 @@
             <button data-interfaz="listarProductos">LISTAR PRODUCTOS</button>
             <button data-interfaz="listarPedidos">LISTAR PEDIDOS</button>
         </div>
-
         <div class="acciones">
             <button class="btnAtras" id="btnAtras">ATRÁS</button>
             <button class="btnConfirmar" id="btnConfirmarMesa">CONFIRMAR</button>
@@ -32,86 +32,85 @@
             <!-- Carrito lateral -->
             <aside class="carrito">
                 <h3>PEDIDO 🛒</h3>
-                <ul id="listaCarrito"></ul>
+                <ul id="listaCarrito">
+                    <li class="carrito-vacio">Carrito vacío.</li>
+                </ul>
                 <div class="botones-carrito">
                     <button class="btn-cerrar-sesion" id="btnCerrarSesion">CERRAR SESIÓN</button>
                     <button class="btn-confirmar" id="btnConfirmarPedido">CONFIRMAR</button>
                 </div>
             </aside>
 
-            <!-- Zona de categorías -->
+            <!-- Zona de productos -->
             <div class="zona-productos">
                 <h2>MESEROS</h2>
-                <div class="categorias" id="categoriasMenu">
-                    <button data-categoria="Entrada">ENTRADAS</button>
-                    <button data-categoria="Fuerte">FUERTES</button>
-                    <button data-categoria="Bebida">BEBIDAS</button>
-                    <button data-categoria="Ensalada">ENSALADAS</button>
-                    <button data-categoria="Postre">POSTRES</button>
-                    <button data-categoria="Adicion">ADICIONES</button>
+                
+                <!-- Vista de categorías (inicial) -->
+                <div id="vistaCategorias">
+                    <div class="categorias" id="categoriasMenu">
+                        <button data-categoria="Entrada">ENTRADAS</button>
+                        <button data-categoria="Fuerte">FUERTES</button>
+                        <button data-categoria="Bebida">BEBIDAS</button>
+                        <button data-categoria="Ensalada">ENSALADAS</button>
+                        <button data-categoria="Postre">POSTRES</button>
+                        <button data-categoria="Adicion">ADICIONES</button>
+                    </div>
+                    <div class="botones-inferiores">
+                        <button class="btn-atras" id="btnVolverMenuPrincipal">ATRÁS</button>
+                    </div>
                 </div>
 
-                <div id="productosCategoria" class="productos-grid oculto"></div>
-
-                <p class="instruccion">DA CLICK A LO QUE DESEAS AGREGAR AL CARRITO</p>
-
-                <div class="botones-inferiores">
-                    <button class="btn-atras" id="btnVolverMenu">ATRÁS</button>
-                    <button class="btn-confirmar-inferior" id="btnConfirmarInferior">CONFIRMAR</button>
+                <!-- Vista de productos de una categoría -->
+                <div id="vistaProductos" class="vista-categoria oculto">
+                    <button class="categoria-titulo" id="nombreCategoria"></button>
+                    <div id="productosGrid" class="productos-grid"></div>
+                    <div class="botones-inferiores">
+                        <button class="btn-atras" id="btnVolverCategorias">ATRÁS</button>
+                        <button class="btn-confirmar-inferior" id="btnConfirmarInferior">CONFIRMAR</button>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- EDITAR PEDIDO -->
- <section id="editarPedido" class="interfaz oculto">
-   <h2>Editar Pedido</h2>
+    <section id="editarPedido" class="interfaz oculto">
+        <h2>Editar Pedido</h2>
+        <div class="formulario">
+            <label for="pedidoIdEditar">ID del Pedido:</label>
+            <input type="number" id="pedidoIdEditar" placeholder="Ingrese ID del pedido">
+            <button class="btn-buscar" id="btnBuscarEditar">Buscar Pedido</button>
+        </div>
+        <div id="datosPedido" class="oculto">
+            <h3>Detalles del Pedido</h3>
+            <label for="mesaEditar">Mesa:</label>
+            <input type="number" id="mesaEditar">
+            <label for="usuarioEditar">Usuario (Mesero):</label>
+            <input type="number" id="usuarioEditar">
+            <label for="observacionesEditar">Observaciones:</label>
+            <textarea id="observacionesEditar" rows="2"></textarea>
+            <h4>Productos del Pedido</h4>
+            <div id="listaProductosEditar"></div>
+            <button class="btn-confirmar" id="btnGuardarCambios">Guardar Cambios</button>
+        </div>
+        <button class="btn-atras" id="btnVolverEditar">Volver</button>
+    </section>
 
-   <div class="formulario">
-     <label for="pedidoIdEditar">ID del Pedido:</label>
-     <input type="number" id="pedidoIdEditar" placeholder="Ingrese ID del pedido">
-     <button class="btn-buscar" id="btnBuscarEditar">Buscar Pedido</button>
-   </div>
-
-  <div id="datosPedido" class="oculto">
-     <h3>Detalles del Pedido</h3>
-
-     <label for="mesaEditar">Mesa:</label>
-     <input type="number" id="mesaEditar">
-
-     <label for="usuarioEditar">Usuario (Mesero):</label>
-     <input type="number" id="usuarioEditar">
-
-     <label for="observacionesEditar">Observaciones:</label>
-     <textarea id="observacionesEditar" rows="2"></textarea>
-
-     <h4>Productos del Pedido</h4>
-     <div id="listaProductosEditar"></div>
-
-     <button class="btn-confirmar" id="btnGuardarCambios">Guardar Cambios</button>
-   </div>
-
-  <button class="btn-atras" id="btnVolverEditar">Volver</button>
- </section>
-
-  <!-- ELIMINAR PEDIDO -->
- <section id="eliminarPedido" class="interfaz oculto">
-   <h2>Eliminar Pedido</h2>
-
-   <div class="formulario">
-     <label for="pedidoIdEliminar">ID del Pedido:</label>
-     <input type="number" id="pedidoIdEliminar" placeholder="Ingrese ID del pedido a eliminar">
-     <button class="btn-buscar" id="btnBuscarPedidoEliminar">Buscar Pedido</button>
-   </div>
-
-   <div id="datosPedidoEliminar" class="oculto">
-     <h3>Detalles del Pedido</h3>
-     <div id="infoPedidoEliminar"></div>
-     <button class="btn-eliminar" id="btnEliminarPedido">Eliminar Pedido</button>
-   </div>
-
-   <button class="btn-atras" id="btnVolverEliminar">Volver</button>
- </section>   
+    <!-- ELIMINAR PEDIDO -->
+    <section id="eliminarPedido" class="interfaz oculto">
+        <h2>Eliminar Pedido</h2>
+        <div class="formulario">
+            <label for="pedidoIdEliminar">ID del Pedido:</label>
+            <input type="number" id="pedidoIdEliminar" placeholder="Ingrese ID del pedido a eliminar">
+            <button class="btn-buscar" id="btnBuscarPedidoEliminar">Buscar Pedido</button>
+        </div>
+        <div id="datosPedidoEliminar" class="oculto">
+            <h3>Detalles del Pedido</h3>
+            <div id="infoPedidoEliminar"></div>
+            <button class="btn-eliminar" id="btnEliminarPedido">Eliminar Pedido</button>
+        </div>
+        <button class="btn-atras" id="btnVolverEliminar">Volver</button>
+    </section>
 
     <!-- LISTAR PRODUCTOS -->
     <section id="listarProductos" class="interfaz oculto">
@@ -123,31 +122,12 @@
     <!-- LISTAR PEDIDOS -->
     <section id="listarPedidos" class="interfaz oculto">
         <h2>Lista de Pedidos</h2>
-
         <div id="contenedorPedidos">
-         <ul id="listaPedidos"></ul>
-       </div>
+            <ul id="listaPedidos"></ul>
+        </div>
         <button class="btn-atras" id="btnVolverListaPedidos">Volver</button>
     </section>
 
-    <!-- Script -->
-    <script src="pedidos.js">
-
-       // Desactiva botones hasta que el número de mesa sea válido
-  const inputMesa = document.getElementById('mesa');
-  const opciones = document.querySelectorAll('.opciones button');
-  const confirmar = document.getElementById('btnConfirmarMesa');
-
-  function validarMesa() {
-    const valido = inputMesa.value.trim() !== '' && parseInt(inputMesa.value) > 0;
-    opciones.forEach(btn => {
-      btn.disabled = !valido;
-    });
-    confirmar.disabled = !valido;
-  }
-
-  inputMesa.addEventListener('input', validarMesa);
-  validarMesa(); // verificar al cargar 
-    </script>
+    <script src="pedidos.js"></script>
 </body>
 </html>

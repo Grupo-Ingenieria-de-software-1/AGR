@@ -10,7 +10,7 @@ import os
 router = APIRouter(prefix="/auth", tags=["Autenticación"])
 
 # Clave secreta para los tokens
-SECRET_KEY = "tu_clave_secreta_segura"
+SECRET_KEY = "AGR_SK_FT"
 ALGORITHM = "HS256"
 
 # Ruta base al directorio actual del proyecto
@@ -45,7 +45,7 @@ def login(
         algorithm=ALGORITHM
     )
 
-    # Redirigir a la raíz por ahora
+    # Redireccion a la raíz por ahora, mientras se crean los otros modulos
     response = RedirectResponse(url="/", status_code=303)
     response.set_cookie(key="access_token", value=access_token, httponly=True)
     return response
