@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Reservas</title>
+    <link rel="stylesheet" href="reservas.css">
+</head>
+<body>
+    <!-- MENÚ PRINCIPAL -->
+    <section class="menu-principal">
+        <h1>RESERVAS</h1>
+        <h2>GESTIÓN DE RESERVAS</h2>
+        <div class="opciones">
+            <button data-interfaz="crearReserva">CREAR RESERVA</button>
+            <button data-interfaz="editarReserva">EDITAR RESERVA</button>
+            <button data-interfaz="cancelarReserva">CANCELAR RESERVA</button>
+            <button data-interfaz="listarReservas">LISTAR RESERVAS</button>
+            <button data-interfaz="consultarMesa">CONSULTAR POR MESA</button>
+        </div>
+        <div class="acciones">
+            <button class="btnAtras" id="btnAtras">ATRÁS</button>
+        </div>
+    </section>
+
+    <!-- CREAR RESERVA -->
+    <section id="crearReserva" class="interfaz oculto">
+        <h2>Nueva Reserva</h2>
+        <form id="formCrearReserva" class="formulario">
+            <div class="form-group">
+                <label for="nombreCliente">Nombre del Cliente *</label>
+                <input type="text" id="nombreCliente" required placeholder="Nombre completo">
+            </div>
+            
+            <div class="form-group">
+                <label for="documento">Documento (opcional)</label>
+                <input type="text" id="documento" placeholder="Cédula o documento">
+            </div>
+            
+            <div class="form-group">
+                <label for="telefono">Teléfono (opcional)</label>
+                <input type="tel" id="telefono" placeholder="Número de contacto">
+            </div>
+            
+            <div class="form-group">
+                <label for="fechaReserva">Fecha y Hora de la Reserva *</label>
+                <input type="datetime-local" id="fechaReserva" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="numeroMesaCrear">Número de Mesa *</label>
+                <input type="number" id="numeroMesaCrear" required placeholder="Ingrese número de mesa" min="1">
+            </div>
+
+            <div class="botones-form">
+                <button type="button" class="btn-atras" id="btnVolverCrear">VOLVER</button>
+                <button type="submit" class="btn-confirmar">CONFIRMAR RESERVA</button>
+            </div>
+        </form>
+    </section>
+
+    <!-- EDITAR RESERVA -->
+    <section id="editarReserva" class="interfaz oculto">
+        <h2>Editar Reserva</h2>
+        <div class="formulario-busqueda">
+            <label for="idReservaBuscar">ID de la Reserva:</label>
+            <input type="number" id="idReservaBuscar" placeholder="Ingrese ID de reserva" min="1">
+            <button class="btn-buscar" id="btnBuscarReserva">BUSCAR</button>
+        </div>
+
+        <form id="formEditarReserva" class="formulario oculto">
+            <input type="hidden" id="idReservaEditar">
+            
+            <div class="form-group">
+                <label for="nombreClienteEditar">Nombre del Cliente</label>
+                <input type="text" id="nombreClienteEditar" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="documentoEditar">Documento</label>
+                <input type="text" id="documentoEditar">
+            </div>
+            
+            <div class="form-group">
+                <label for="telefonoEditar">Teléfono</label>
+                <input type="tel" id="telefonoEditar">
+            </div>
+            
+            <div class="form-group">
+                <label for="fechaReservaEditar">Fecha y Hora</label>
+                <input type="datetime-local" id="fechaReservaEditar" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="numeroMesaEditar">Número de Mesa</label>
+                <input type="number" id="numeroMesaEditar" required min="1">
+            </div>
+
+            <div class="form-group">
+                <label for="estadoEditar">Estado</label>
+                <select id="estadoEditar">
+                    <option value="activa">Activa</option>
+                    <option value="cumplida">Cumplida</option>
+                    <option value="cancelada">Cancelada</option>
+                </select>
+            </div>
+
+            <div class="botones-form">
+                <button type="button" class="btn-atras" id="btnVolverEditar">VOLVER</button>
+                <button type="submit" class="btn-confirmar">GUARDAR CAMBIOS</button>
+            </div>
+        </form>
+    </section>
+
+    <!-- CANCELAR RESERVA -->
+    <section id="cancelarReserva" class="interfaz oculto">
+        <h2>Cancelar Reserva</h2>
+        <div class="formulario-busqueda">
+            <label for="idReservaCancelar">ID de la Reserva:</label>
+            <input type="number" id="idReservaCancelar" placeholder="Ingrese ID de reserva" min="1">
+            <button class="btn-buscar" id="btnBuscarCancelar">BUSCAR</button>
+        </div>
+
+        <div id="datosReservaCancelar" class="datos-reserva oculto">
+            <h3>Información de la Reserva</h3>
+            <div id="infoReservaCancelar"></div>
+            <div class="botones-form">
+                <button class="btn-atras" id="btnVolverCancelar">VOLVER</button>
+                <button class="btn-eliminar" id="btnConfirmarCancelar">CANCELAR RESERVA</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- LISTAR RESERVAS -->
+    <section id="listarReservas" class="interfaz oculto">
+        <h2>Lista de Reservas</h2>
+        <div class="filtros">
+            <button class="btn-filtro activo" data-filtro="todas">TODAS</button>
+            <button class="btn-filtro" data-filtro="activa">ACTIVAS</button>
+            <button class="btn-filtro" data-filtro="cumplida">CUMPLIDAS</button>
+            <button class="btn-filtro" data-filtro="cancelada">CANCELADAS</button>
+        </div>
+        <div id="contenedorReservas">
+            <ul id="listaReservas"></ul>
+        </div>
+        <button class="btn-atras" id="btnVolverLista">VOLVER</button>
+    </section>
+
+    <!-- CONSULTAR POR MESA -->
+    <section id="consultarMesa" class="interfaz oculto">
+        <h2>Consultar Reservas por Mesa</h2>
+        <div class="formulario-busqueda">
+            <label for="numeroMesaConsultar">Número de Mesa:</label>
+            <input type="number" id="numeroMesaConsultar" placeholder="Ingrese número de mesa" min="1">
+            <button class="btn-buscar" id="btnConsultarMesa">CONSULTAR</button>
+        </div>
+
+        <div id="resultadosMesa" class="datos-reserva oculto">
+            <h3>Reservas de la Mesa <span id="numeroMesaMostrar"></span></h3>
+            <ul id="listaReservasMesa"></ul>
+        </div>
+        
+        <button class="btn-atras" id="btnVolverConsultar">VOLVER</button>
+    </section>
+
+    <script src="reservas.js"></script>
+</body>
+</html>
