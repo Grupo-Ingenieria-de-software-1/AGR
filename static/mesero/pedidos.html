@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -48,12 +47,12 @@
                 <!-- Vista de categorías (inicial) -->
                 <div id="vistaCategorias">
                     <div class="categorias" id="categoriasMenu">
-                        <button data-categoria="Entrada">ENTRADAS</button>
-                        <button data-categoria="Fuerte">FUERTES</button>
-                        <button data-categoria="Bebida">BEBIDAS</button>
-                        <button data-categoria="Ensalada">ENSALADAS</button>
-                        <button data-categoria="Postre">POSTRES</button>
-                        <button data-categoria="Adicion">ADICIONES</button>
+                        <button data-categoria="entrada">ENTRADAS</button>
+                        <button data-categoria="fuerte">FUERTES</button>
+                        <button data-categoria="bebida">BEBIDAS</button>
+                        <button data-categoria="ensalada">ENSALADAS</button>
+                        <button data-categoria="postre">POSTRES</button>
+                        <button data-categoria="adicion">ADICIONES</button>
                     </div>
                     <div class="botones-inferiores">
                         <button class="btn-atras" id="btnVolverMenuPrincipal">ATRÁS</button>
@@ -76,15 +75,13 @@
     <!-- EDITAR PEDIDO -->
     <section id="editarPedido" class="interfaz oculto">
         <h2>Editar Pedido</h2>
-        <div class="formulario">
-            <label for="pedidoIdEditar">ID del Pedido:</label>
-            <input type="number" id="pedidoIdEditar" placeholder="Ingrese ID del pedido">
-            <button class="btn-buscar" id="btnBuscarEditar">Buscar Pedido</button>
+        <div class="formulario" style="display: none;">
+            <input type="hidden" id="pedidoIdEditar">
         </div>
         <div id="datosPedido" class="oculto">
             <h3>Detalles del Pedido</h3>
             <label for="mesaEditar">Mesa:</label>
-            <input type="number" id="mesaEditar">
+            <input type="number" id="mesaEditar" readonly>
             <label for="usuarioEditar">Usuario (Mesero):</label>
             <input type="number" id="usuarioEditar">
             <label for="observacionesEditar">Observaciones:</label>
@@ -99,10 +96,8 @@
     <!-- ELIMINAR PEDIDO -->
     <section id="eliminarPedido" class="interfaz oculto">
         <h2>Eliminar Pedido</h2>
-        <div class="formulario">
-            <label for="pedidoIdEliminar">ID del Pedido:</label>
-            <input type="number" id="pedidoIdEliminar" placeholder="Ingrese ID del pedido a eliminar">
-            <button class="btn-buscar" id="btnBuscarPedidoEliminar">Buscar Pedido</button>
+        <div class="formulario" style="display: none;">
+            <input type="hidden" id="pedidoIdEliminar">
         </div>
         <div id="datosPedidoEliminar" class="oculto">
             <h3>Detalles del Pedido</h3>

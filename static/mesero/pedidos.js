@@ -1,21 +1,97 @@
 const API_URL = "http://127.0.0.1:8000";
 let carrito = [];
 let categoriaActual = null;
+let mesaValidada = null; // Guarda el id_mesa
+let numeroMesaActual = null; // Guarda el número de mesa
+
+// ======================= 
+// VALIDACIÓN DE MESA
+// ======================= 
+async function validarMesa(numeroMesa, accion) {
+    try {
+        const response = await fetch(`${API_URL}/pedidos/validar-mesa/${numeroMesa}`);
+        
+        if (!response.ok) {
+            const error = await response.json();
+            alert(`❌ ${error.detail}`);
+            return null;
+        }
+        
+        const resultado = await response.json();
+        
+        // Si la acción es crear pedido, validar que no tenga pedido activo
+        if (accion === "crearPedido" && resultado.tiene_pedido_activo) {
+            alert(`⚠️ La mesa ${resultado.numero_mesa} ya tiene un pedido activo (ID: ${resultado.id_pedido_activo}). Debe ser pagado antes de crear uno nuevo.`);
+            return null;
+        }
+        
+        // Si es editar o eliminar, debe tener un pedido activo
+        if ((accion === "editarPedido" || accion === "eliminarPedido") && !resultado.tiene_pedido_activo) {
+            alert(`⚠️ La mesa ${resultado.numero_mesa} no tiene pedidos activos.`);
+            return null;
+        }
+        
+        // Guardar el ID de la mesa y el número
+        mesaValidada = resultado.id_mesa;
+        numeroMesaActual = resultado.numero_mesa;
+        return resultado;
+        
+    } catch (error) {
+        alert("❌ Error al validar la mesa: " + error.message);
+        return null;
+    }
+}
 
 // ======================= 
 // CAMBIO DE INTERFAZ 
 // ======================= 
-function mostrarInterfaz(id) {
+async function mostrarInterfaz(id) {
+    // Listar productos y pedidos no requieren validación de mesa
+    if (id === "listarProductos" || id === "listarPedidos") {
+        document.querySelector(".menu-principal").style.display = "none";
+        document.querySelectorAll(".interfaz").forEach(sec => sec.classList.add("oculto"));
+        document.getElementById(id)?.classList.remove("oculto");
+        
+        if (id === "listarProductos") {
+            cargarProductos();
+        }
+        
+        if (id === "listarPedidos") {
+            cargarListaPedidos();
+        }
+        return;
+    }
+    
+    // Para crear, editar y eliminar pedido sí se requiere validar mesa
+    const numeroMesa = document.getElementById("mesa").value.trim();
+    
+    if (!numeroMesa || parseInt(numeroMesa) <= 0) {
+        alert("⚠️ Ingrese un número de mesa válido");
+        return;
+    }
+    
+    // Validar mesa antes de mostrar la interfaz
+    const resultado = await validarMesa(parseInt(numeroMesa), id);
+    
+    if (!resultado) {
+        return; // No continuar si la mesa no es válida
+    }
+    
+    // Ocultar menú principal y mostrar interfaz solicitada
     document.querySelector(".menu-principal").style.display = "none";
     document.querySelectorAll(".interfaz").forEach(sec => sec.classList.add("oculto"));
     document.getElementById(id)?.classList.remove("oculto");
     
-    if (id === "listarProductos") {
-        cargarProductos();
-    }
-    
     if (id === "crearPedido") {
         mostrarVistaCategorias();
+    }
+    
+    if (id === "editarPedido") {
+        cargarPedidoParaEditar(numeroMesaActual);
+    }
+    
+    if (id === "eliminarPedido") {
+        cargarPedidoParaEliminar(numeroMesaActual);
     }
 }
 
@@ -23,6 +99,8 @@ function volverMenu() {
     document.querySelectorAll(".interfaz").forEach(sec => sec.classList.add("oculto"));
     document.querySelector(".menu-principal").style.display = "flex";
     document.getElementById("mesa").value = "";
+    mesaValidada = null;
+    numeroMesaActual = null;
     carrito = [];
     actualizarCarrito();
 }
@@ -45,12 +123,12 @@ function mostrarVistaProductos(categoria) {
 
 function getNombreCategoria(categoria) {
     const nombres = {
-        "Entrada": "ENTRADAS",
-        "Fuerte": "FUERTES",
-        "Bebida": "BEBIDAS",
-        "Ensalada": "ENSALADAS",
-        "Postre": "POSTRES",
-        "Adicion": "ADICIONES"
+        "entrada": "ENTRADAS",
+        "fuerte": "FUERTES",
+        "bebida": "BEBIDAS",
+        "ensalada": "ENSALADAS",
+        "postre": "POSTRES",
+        "adicion": "ADICIONES"
     };
     return nombres[categoria] || categoria.toUpperCase();
 }
@@ -67,19 +145,23 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Validación de mesa
+    // Validación de mesa en tiempo real
     const inputMesa = document.getElementById('mesa');
-    const opciones = document.querySelectorAll('.opciones button');
+    const opcionesConMesa = document.querySelectorAll('.opciones button[data-interfaz="crearPedido"], .opciones button[data-interfaz="editarPedido"], .opciones button[data-interfaz="eliminarPedido"]');
+    const opcionesSinMesa = document.querySelectorAll('.opciones button[data-interfaz="listarProductos"], .opciones button[data-interfaz="listarPedidos"]');
     const confirmar = document.getElementById('btnConfirmarMesa');
 
-    function validarMesa() {
+    function validarInput() {
         const valido = inputMesa.value.trim() !== '' && parseInt(inputMesa.value) > 0;
-        opciones.forEach(btn => btn.disabled = !valido);
+        // Solo deshabilitar las opciones que requieren mesa
+        opcionesConMesa.forEach(btn => btn.disabled = !valido);
         confirmar.disabled = !valido;
+        // Las opciones de listar siempre están habilitadas
+        opcionesSinMesa.forEach(btn => btn.disabled = false);
     }
 
-    inputMesa.addEventListener('input', validarMesa);
-    validarMesa();
+    inputMesa.addEventListener('input', validarInput);
+    validarInput();
 
     // Botón atrás del menú principal
     document.getElementById("btnAtras").addEventListener("click", () => history.back());
@@ -93,11 +175,11 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("btnVolverLista")?.addEventListener("click", volverMenu);
     document.getElementById("btnVolverListaPedidos")?.addEventListener("click", volverMenu);
 
-    // Botón confirmar mesa
+    // Botón confirmar mesa (opcional, solo informativo)
     document.getElementById("btnConfirmarMesa").addEventListener("click", () => {
         const mesa = document.getElementById("mesa").value.trim();
         if (mesa) {
-            alert(`✅ Mesa ${mesa} registrada. Ahora puedes crear el pedido.`);
+            alert(`✅ Mesa ${mesa} lista. Seleccione una opción del menú.`);
         }
     });
 
@@ -111,7 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Botones de categorías
     document.querySelectorAll("#categoriasMenu button").forEach(btn => {
         btn.addEventListener("click", () => {
-            const categoria = btn.dataset.categoria;
+            const categoria = btn.dataset.categoria.toLowerCase();
             mostrarVistaProductos(categoria);
         });
     });
@@ -215,11 +297,11 @@ function actualizarCarrito() {
 // CONFIRMAR PEDIDO 
 // ======================= 
 function confirmarPedido() {
-    const mesa = document.getElementById("mesa").value;
-    if (!mesa) {
-        alert("⚠️ Ingresa el número de mesa antes de confirmar el pedido.");
+    if (!mesaValidada) {
+        alert("⚠️ No hay una mesa validada.");
         return;
     }
+    
     if (carrito.length === 0) {
         alert("⚠️ El carrito está vacío.");
         return;
@@ -233,7 +315,7 @@ function confirmarPedido() {
     }));
 
     const pedido = {
-        id_mesa: parseInt(mesa),
+        id_mesa: mesaValidada,
         id_usuario,
         observaciones: "",
         detalles
@@ -247,7 +329,11 @@ function confirmarPedido() {
             body: JSON.stringify(pedido)
         })
         .then(res => {
-            if (!res.ok) throw new Error("Error al crear pedido");
+            if (!res.ok) {
+                return res.json().then(err => {
+                    throw new Error(err.detail || "Error al crear pedido");
+                });
+            }
             return res.json();
         })
         .then(() => {
@@ -294,132 +380,174 @@ function cerrarSesion() {
 // ======================= 
 // EDITAR PEDIDOS 
 // ======================= 
-document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("btnBuscarEditar")?.addEventListener("click", async () => {
-        const id = document.getElementById("pedidoIdEditar").value.trim();
-        if (!id) return alert("⚠️ Ingresa el ID del pedido.");
-        try {
-            const res = await fetch(`${API_URL}/pedidos/${id}`);
-            if (!res.ok) throw new Error("Pedido no encontrado");
-            const pedido = await res.json();
+async function cargarPedidoParaEditar(numeroMesa) {
+    try {
+        const res = await fetch(`${API_URL}/pedidos/mesa/${numeroMesa}/pedido`);
+        if (!res.ok) {
+            const error = await res.json();
+            alert(`❌ ${error.detail}`);
+            volverMenu();
+            return;
+        }
+        
+        const pedido = await res.json();
 
-            document.getElementById("mesaEditar").value = pedido.id_mesa;
-            document.getElementById("usuarioEditar").value = pedido.id_usuario;
-            document.getElementById("observacionesEditar").value = pedido.observaciones || "";
+        // Ocultar el formulario de búsqueda y mostrar directamente los datos
+        document.querySelector("#editarPedido .formulario").style.display = "none";
+        document.getElementById("pedidoIdEditar").value = pedido.id_pedido;
+        
+        // Mostrar el número de mesa en lugar del id_mesa
+        document.getElementById("mesaEditar").value = numeroMesa;
+        document.getElementById("usuarioEditar").value = pedido.id_usuario;
+        document.getElementById("observacionesEditar").value = pedido.observaciones || "";
 
-            const lista = document.getElementById("listaProductosEditar");
-            lista.innerHTML = pedido.detalle_pedido
-                .map(
-                    (d) => `
-                <div class="detalle-item">
-                    <p><strong>Producto:</strong> ${d.producto?.nombre || "Sin nombre"} (ID: ${d.id_producto})</p>
-                    <label>Cantidad:</label>
-                    <input type="number" id="cant_${d.id_producto}" value="${d.cantidad}" min="1" />
-                    <p><strong>Precio:</strong> $${d.precio_unitario}</p>
-                    <hr>
-                </div>
-            `
-                )
-                .join("");
+        const lista = document.getElementById("listaProductosEditar");
+        lista.innerHTML = pedido.detalle_pedido
+            .map(
+                (d) => `
+            <div class="detalle-item">
+                <p><strong>Producto:</strong> ${d.producto?.nombre || "Sin nombre"} (ID: ${d.id_producto})</p>
+                <label>Cantidad:</label>
+                <input type="number" id="cant_${d.id_producto}" value="${d.cantidad}" min="1" />
+                <p><strong>Precio:</strong> ${d.precio_unitario}</p>
+                <hr>
+            </div>
+        `
+            )
+            .join("");
 
-            document.getElementById("datosPedido").classList.remove("oculto");
+        document.getElementById("datosPedido").classList.remove("oculto");
 
-            document.getElementById("btnGuardarCambios").onclick = async () => {
-                const nuevoPedido = {
-                    id_mesa: parseInt(document.getElementById("mesaEditar").value),
-                    id_usuario: parseInt(document.getElementById("usuarioEditar").value),
-                    observaciones: document.getElementById("observacionesEditar").value,
-                    detalles: pedido.detalle_pedido.map((d) => ({
-                        id_producto: d.id_producto,
-                        cantidad: parseInt(document.getElementById(`cant_${d.id_producto}`).value),
-                    })),
-                };
-
-                try {
-                    const resp = await fetch(`${API_URL}/pedidos/${id}`, {
-                        method: "PUT",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(nuevoPedido),
-                    });
-                    if (!resp.ok) throw new Error("Error al actualizar el pedido");
-                    alert("✅ Pedido actualizado correctamente");
-                    document.getElementById("datosPedido").classList.add("oculto");
-                    document.getElementById("pedidoIdEditar").value = "";
-                } catch (err) {
-                    alert("❌ No se pudo actualizar: " + err.message);
-                }
+        // Configurar el botón de guardar cambios
+        document.getElementById("btnGuardarCambios").onclick = async () => {
+            const nuevoPedido = {
+                id_mesa: pedido.id_mesa, // Usar el id_mesa original del pedido
+                id_usuario: parseInt(document.getElementById("usuarioEditar").value),
+                observaciones: document.getElementById("observacionesEditar").value,
+                detalles: pedido.detalle_pedido.map((d) => ({
+                    id_producto: d.id_producto,
+                    cantidad: parseInt(document.getElementById(`cant_${d.id_producto}`).value),
+                })),
             };
-        } catch (error) {
-            alert("❌ No se pudo obtener el pedido: " + error.message);
-        }
-    });
 
-    // ======================= 
-    // ELIMINAR PEDIDOS 
-    // ======================= 
-    document.getElementById("btnBuscarPedidoEliminar")?.addEventListener("click", async () => {
-        const id = document.getElementById("pedidoIdEliminar").value.trim();
-        if (!id) return alert("⚠️ Ingresa el ID del pedido.");
-        if (!confirm("¿Seguro que deseas eliminar este pedido?")) return;
-
-        try {
-            const res = await fetch(`${API_URL}/pedidos/${id}`, {
-                method: "DELETE"
-            });
-            if (!res.ok) throw new Error("Error al eliminar pedido");
-            alert("✅ Pedido eliminado correctamente");
-            document.getElementById("pedidoIdEliminar").value = "";
-        } catch (error) {
-            alert("❌ No se pudo eliminar el pedido: " + error.message);
-        }
-    });
-
-    // ======================= 
-    // LISTAR PEDIDOS 
-    // ======================= 
-    document.querySelector('button[data-interfaz="listarPedidos"]')?.addEventListener("click", async () => {
-        mostrarInterfaz("listarPedidos");
-        const lista = document.getElementById("listaPedidos");
-        lista.innerHTML = "<p>Cargando pedidos...</p>";
-
-        try {
-            const res = await fetch(`${API_URL}/pedidos/`);
-            if (!res.ok) throw new Error("No se pudieron obtener los pedidos");
-            const pedidos = await res.json();
-            lista.innerHTML = "";
-
-            if (pedidos.length === 0) {
-                lista.innerHTML = "<p>No hay pedidos registrados.</p>";
-                return;
+            try {
+                const resp = await fetch(`${API_URL}/pedidos/${pedido.id_pedido}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(nuevoPedido),
+                });
+                if (!resp.ok) throw new Error("Error al actualizar el pedido");
+                alert("✅ Pedido actualizado correctamente");
+                volverMenu();
+            } catch (err) {
+                alert("❌ No se pudo actualizar: " + err.message);
             }
+        };
+    } catch (error) {
+        alert("❌ No se pudo obtener el pedido: " + error.message);
+        volverMenu();
+    }
+}
 
-            pedidos.forEach((pedido) => {
-                const li = document.createElement("li");
-                li.classList.add("pedido-item");
-                li.innerHTML = `
-                    <h3>🧾 Pedido #${pedido.id_pedido}</h3>
-                    <p><strong>Mesa:</strong> ${pedido.id_mesa}</p>
-                    <p><strong>Estado:</strong> ${pedido.estado}</p>
-                    <p><strong>Observaciones:</strong> ${pedido.observaciones ?? "Ninguna"}</p>
-                    <h4>Productos:</h4>
-                    <ul class="productos-lista">
-                        ${pedido.detalle_pedido.map(detalle => `
-                            <li>
-                                ${detalle.producto?.nombre || "Producto sin nombre"} - 
-                                Cant: ${detalle.cantidad} - 
-                                Precio: $${detalle.precio_unitario} - 
-                                Subtotal: $${detalle.subtotal}
-                            </li>
-                        `).join("")}
-                    </ul>
-                `;
-                lista.appendChild(li);
-            });
-        } catch (error) {
-            console.error(error);
-            lista.innerHTML = `<p>Error al cargar pedidos: ${error.message}</p>`;
+// ======================= 
+// ELIMINAR PEDIDOS 
+// ======================= 
+async function cargarPedidoParaEliminar(numeroMesa) {
+    try {
+        const res = await fetch(`${API_URL}/pedidos/mesa/${numeroMesa}/pedido`);
+        if (!res.ok) {
+            const error = await res.json();
+            alert(`❌ ${error.detail}`);
+            volverMenu();
+            return;
         }
-    });
-});
+        
+        const pedido = await res.json();
+
+        // Ocultar el formulario de búsqueda y mostrar directamente los datos
+        document.querySelector("#eliminarPedido .formulario").style.display = "none";
+        
+        const infoPedido = document.getElementById("infoPedidoEliminar");
+        infoPedido.innerHTML = `
+            <p><strong>ID Pedido:</strong> ${pedido.id_pedido}</p>
+            <p><strong>Mesa:</strong> ${numeroMesa}</p>
+            <p><strong>Estado:</strong> ${pedido.estado}</p>
+            <p><strong>Observaciones:</strong> ${pedido.observaciones || "Ninguna"}</p>
+            <h4>Productos:</h4>
+            <ul>
+                ${pedido.detalle_pedido.map(d => `
+                    <li>${d.producto?.nombre || "Sin nombre"} - Cant: ${d.cantidad} - ${d.precio_unitario}</li>
+                `).join("")}
+            </ul>
+        `;
+        
+        document.getElementById("datosPedidoEliminar").classList.remove("oculto");
+        
+        // Configurar el botón de eliminar
+        document.getElementById("btnEliminarPedido").onclick = async () => {
+            if (!confirm("¿Está seguro que desea eliminar este pedido?")) return;
+            
+            try {
+                const resp = await fetch(`${API_URL}/pedidos/${pedido.id_pedido}`, {
+                    method: "DELETE"
+                });
+                if (!resp.ok) throw new Error("Error al eliminar pedido");
+                alert("✅ Pedido eliminado correctamente");
+                volverMenu();
+            } catch (error) {
+                alert("❌ No se pudo eliminar el pedido: " + error.message);
+            }
+        };
+    } catch (error) {
+        alert("❌ No se pudo obtener el pedido: " + error.message);
+        volverMenu();
+    }
+}
+
+// ======================= 
+// LISTAR PEDIDOS 
+// ======================= 
+async function cargarListaPedidos() {
+    const lista = document.getElementById("listaPedidos");
+    lista.innerHTML = "<p>Cargando pedidos...</p>";
+
+    try {
+        const res = await fetch(`${API_URL}/pedidos/`);
+        if (!res.ok) throw new Error("No se pudieron obtener los pedidos");
+        const pedidos = await res.json();
+        lista.innerHTML = "";
+
+        if (pedidos.length === 0) {
+            lista.innerHTML = "<p>No hay pedidos registrados.</p>";
+            return;
+        }
+
+        pedidos.forEach((pedido) => {
+            const li = document.createElement("li");
+            li.classList.add("pedido-item");
+            li.innerHTML = `
+                <h3>🧾 Pedido #${pedido.id_pedido}</h3>
+                <p><strong>Mesa:</strong> ${pedido.mesa?.numero || pedido.id_mesa}</p>
+                <p><strong>Estado:</strong> ${pedido.estado}</p>
+                <p><strong>Observaciones:</strong> ${pedido.observaciones || "Ninguna"}</p>
+                <h4>Productos:</h4>
+                <ul class="productos-lista">
+                    ${pedido.detalle_pedido.map(detalle => `
+                        <li>
+                            ${detalle.producto?.nombre || "Producto sin nombre"} - 
+                            Cant: ${detalle.cantidad} - 
+                            Precio: ${detalle.precio_unitario} - 
+                            Subtotal: ${detalle.subtotal}
+                        </li>
+                    `).join("")}
+                </ul>
+            `;
+            lista.appendChild(li);
+        });
+    } catch (error) {
+        console.error(error);
+        lista.innerHTML = `<p>Error al cargar pedidos: ${error.message}</p>`;
+    }
+}

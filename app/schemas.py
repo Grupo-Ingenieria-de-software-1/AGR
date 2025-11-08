@@ -90,6 +90,7 @@ class PedidoOut(BaseModel):
     observaciones: Optional[str]
     estado:str
     detalle_pedido: List[DetallePedidoOut]
+    mesa: Optional[MesaOut] = None
     
     class Config:
         from_attributes=True
