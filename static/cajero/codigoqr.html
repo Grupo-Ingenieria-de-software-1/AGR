@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAJERO - CODIGO QR/TRANSACCIÓN</title>
+    <link rel="stylesheet" href="codigoqr.css">
+</head>
+<body>
+    <!-- MENÚ PRINCIPAL -->
+    <section class="menu-principal">
+        <h1>PAGO CON QR/TRANSACCIÓN</h1>
+        <h2>INGRESE EL NÚMERO DE MESA:</h2>
+        <input type="text" id="mesa" placeholder="Número de la mesa" required>
+        <div class="opciones">
+            <button data-interfaz="validarMesa">VALIDAR</button>
+            <button data-interfaz="pagarqr">PAGAR</button>
+        </div>
+        <div class="detalles"
+            <h2> Detalles del pedido</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Detalles del pedido</th>
+                        <th>Total a Pagar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Los datos se cargarán dinámicamente con JavaScript -->
+                </tbody>
+            </table>
+            </h2>
+        </div>
+        <div class="acciones">
+            <button class="btnAtras" id="btnAtras">ATRÁS</button>
+        </div>
+    </section>
+
+    <script src="codigoqr.js"></script>
+</body>
+</html>

@@ -150,3 +150,5 @@ ALTER TABLE productos
 MODIFY COLUMN categoria 
 ENUM('entrada', 'fuerte', 'bebida', 'ensalada', 'postre', 'adicion', 'otro') 
 NOT NULL;
+
+select * from usuarios;
