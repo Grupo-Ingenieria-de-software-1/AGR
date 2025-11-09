@@ -1,52 +1,91 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AGR</title>
+    <title>AGR - Iniciar Sesión</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Google Sign-In Library -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
     <div class="login-container">
-    <img src="logo1.png" alt="Logo" class="logo">
+        <img src="logo1.png" alt="Logo" class="logo">
 
-    <div class="login-header">
-    <div class="formulario">
-        
-    <h1> Bienvenido</h1>
-        <form action="/auth/login" method="post">
-         <div class="username">
-             <label>Usuario</label>
-             <input type="text" name="usuario" required>
-         </div>
-           <div class="contrasena">
-            <label>Contraseña</label>
-            <input type="password" id="contraseñaus" name="contraseña" required>
-            <button type="button" class="toggle-password" onclick="togglePassword()">👁️</button>
-           </div>
-      <input type="submit" value="Iniciar Sesión">
+        <div class="login-header">
+            <div class="formulario">
+                <h1>Bienvenido</h1>
+                
+                <!-- Formulario de login tradicional -->
+                <form id="loginForm">
+                    <div class="username">
+                        <label>Usuario</label>
+                        <input type="text" name="usuario" id="usuario" required>
+                    </div>
+                    
+                    <div class="contrasena">
+                        <label>Contraseña</label>
+                        <input type="password" id="contraseñaus" name="contraseña" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword()">👁️</button>
+                    </div>
+                    
+                    <input type="submit" value="Iniciar Sesión">
+                </form>
 
-  </form>    
+                <!-- Separador -->
+                <div class="separador">
+                    <span>O</span>
+                </div>
 
+                <!-- Botón de Google Sign-In -->
+                <!-- IMPORTANTE: Reemplaza TU_CLIENT_ID con tu CLIENT_ID real de Google -->
+                <div id="g_id_onload"
+                     data-client_id="653463547593-d0norqa1bjd4a531qals7rn1kggqki0u.apps.googleusercontent.com"
+                     data-context="signin"
+                     data-ux_mode="popup"
+                     data-callback="handleGoogleLogin"
+                     data-auto_prompt="false">
+                </div>
+                
+                <div class="g_id_signin" 
+                     data-type="standard"
+                     data-size="large"
+                     data-theme="outline"
+                     data-text="signin_with"
+                     data-shape="rectangular"
+                     data-logo_alignment="left"
+                     data-width="300">
+                </div>
 
-  <script src="login.js">
+                <!-- Instrucciones para configurar Google OAuth -->
+                <div style="margin-top: 20px; padding: 15px; background: #f5f5f5; border-radius: 10px; font-size: 12px; text-align: left;">
+                    <strong>📝 Para activar Google Sign-In:</strong>
+                    <ol style="margin: 10px 0; padding-left: 20px;">
+                        <li>Obtén tu CLIENT_ID de Google Cloud Console</li>
+                        <li>Reemplaza "TU_CLIENT_ID" en el código HTML</li>
+                        <li>Configura la variable GOOGLE_CLIENT_ID en el backend</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
 
-  </script>
+    <script src="login.js"></script>
+    
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById("contraseñaus");
+            const toggleButton = document.querySelector(".toggle-password");
 
-   <script>
-    function togglePassword() {
-      const passwordInput = document.getElementById("contraseñaus");
-      const toggleButton = document.querySelector(".toggle-password");
-
-      if (passwordInput.type === "password") {
-        passwordInput.type = "text";
-        toggleButton.textContent = "🙈";
-      } else {
-        passwordInput.type = "password";
-        toggleButton.textContent = "👁️";
-      }
-    }
-  </script>
-
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                toggleButton.textContent = "🙈";
+            } else {
+                passwordInput.type = "password";
+                toggleButton.textContent = "👁️";
+            }
+        }
+    </script>
 </body>
 </html>

@@ -5,6 +5,7 @@ from app.database import engine, Base
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
+
 # Crear las tablas si no existen
 Base.metadata.create_all(bind=engine)
 
@@ -20,7 +21,11 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 # -------------------------------------------------------------
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Acepta todos los orígenes (ajustar en producción)
+    allow_origins=[
+        "http://127.0.0.1:5500",
+        "http://localhost:5500",
+        "*"  # Temporal para desarrollo
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

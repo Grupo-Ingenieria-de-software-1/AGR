@@ -93,3 +93,51 @@ body {
     height: auto;             
 
   }
+
+  .separador {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.separador::before,
+.separador::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #ccc;
+}
+
+.separador span {
+    padding: 0 10px;
+    color: #666;
+    font-size: 14px;
+}
+
+.g_id_signin {
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+}
+
+.user-info {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.rol-badge {
+    background: #9b6330;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+}
