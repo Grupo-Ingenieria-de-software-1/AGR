@@ -143,3 +143,29 @@ button:disabled {
     width: 100%;
   }
 }
+
+
+
+.seccion-qr {
+    background: #f8f9fa;
+    border: 2px dashed #007bff;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.seccion-qr h3 {
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+.seccion-qr img {
+    border: 3px solid #007bff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.oculto {
+    display: none;
+}

@@ -1,4 +1,6 @@
-const API_URL = "http://127.0.0.1:8000";
+const API_URL = window.auth.config.API_URL;
+const FRONTEND_URL = window.auth.config.FRONTEND_URL;
+
 let mesaValidada = null;
 let pedidoActual = null;
 
@@ -9,6 +11,7 @@ function volverMenu() {
     document.getElementById("mesa").value = "";
     document.getElementById("tablaDetalles").innerHTML = "";
     document.getElementById("detallesPedido").classList.add("oculto");
+    document.getElementById("seccionQR").classList.add("oculto");
     document.getElementById("totalPedido").innerText = "";
     deshabilitarBotonPago();
 
@@ -24,7 +27,6 @@ function volverMenu() {
 async function validarMesa() {
     const numeroMesa = document.getElementById("mesa").value.trim();
 
-    // Validar entrada
     if (!numeroMesa || parseInt(numeroMesa) <= 0) {
         alert("⚠️ Ingrese un número de mesa válido.");
         return;
@@ -42,18 +44,15 @@ async function validarMesa() {
 
         const resultado = await response.json();
 
-        // 🔹 En esta interfaz solo se debe permitir continuar si la mesa tiene pedido activo
         if (!resultado.tiene_pedido_activo) {
             alert(`⚠️ La mesa ${resultado.numero_mesa} no tiene pedidos activos. No hay nada para pagar.`);
             deshabilitarBotonPago();
             return;
         }
 
-        // Guardar datos de la mesa validada
         mesaValidada = resultado.id_mesa;
         alert(`✅ Mesa ${resultado.numero_mesa} validada correctamente. Cargando pedido...`);
 
-        // 🔹 Cargar los detalles del pedido activo
         await cargarPedidoActivo(resultado.numero_mesa);
 
     } catch (error) {
@@ -61,8 +60,6 @@ async function validarMesa() {
         deshabilitarBotonPago();
     }
 }
-
-
 
 // =======================
 // CARGAR DETALLES DEL PEDIDO ACTIVO
@@ -99,9 +96,51 @@ async function cargarPedidoActivo(numeroMesa) {
         const total = calcularTotalPedido(pedido);
         totalEl.innerText = `TOTAL: $${total}`;
         detallesDiv.classList.remove("oculto");
+
+        // 🆕 GENERAR Y MOSTRAR EL QR
+        await cargarCodigoQR(pedido.id_pedido);
+
         habilitarBotonPago();
     } catch (error) {
         tabla.innerHTML = `<tr><td colspan='3'>${error.message}</td></tr>`;
+    }
+}
+
+// =======================
+// 🆕 CARGAR CÓDIGO QR (CON IMAGEN LOCAL)
+// =======================
+async function cargarCodigoQR(idPedido) {
+    const seccionQR = document.getElementById("seccionQR");
+    const imagenQR = document.getElementById("imagenQR");
+
+    try {
+        // 👇 Ruta a tu imagen QR de Nequi
+        const qrUrl = "./assets/qr-nequi.png";
+        
+        // Asignar URL como fuente de la imagen
+        imagenQR.src = qrUrl;
+        
+        // Mostrar la sección del QR
+        seccionQR.classList.remove("oculto");
+        
+        // Actualizar el texto con información del pedido
+        const infoPago = document.createElement("div");
+        infoPago.style.cssText = "text-align: center; margin-top: 15px; font-weight: bold; color: #333;";
+        infoPago.innerHTML = `
+            
+            <p>Referencia: Pedido #${idPedido}</p>
+        `;
+        
+        // Agregar info si no existe
+        if (!document.getElementById("infoPagoQR")) {
+            infoPago.id = "infoPagoQR";
+            seccionQR.appendChild(infoPago);
+        }
+        
+        console.log("✅ Código QR cargado correctamente");
+    } catch (error) {
+        console.error("❌ Error al cargar el código QR:", error);
+        alert("⚠️ No se pudo cargar el código QR.");
     }
 }
 
@@ -127,10 +166,18 @@ async function confirmarPago() {
     const cliente = document.getElementById("nombreCliente").value.trim() || "Cliente sin nombre";
     const monto = calcularTotalPedido(pedidoActual);
 
+    const confirmacion = confirm(
+        `¿Confirmar que el cliente realizó la transferencia de $${monto}?\n\n` +
+        `Pedido: #${pedidoActual.id_pedido}\n` +
+        `Cliente: ${cliente}`
+    );
+
+    if (!confirmacion) return;
+
     const nuevoPago = {
         id_pedido: pedidoActual.id_pedido,
         monto: parseFloat(monto),
-        metodo_pago: "trasferencia", // 🔹 igual que en el Enum del backend
+        metodo_pago: "trasferencia",
         cliente: cliente
     };
 
@@ -148,7 +195,7 @@ async function confirmarPago() {
         }
 
         alert(`✅ Pago registrado correctamente.\nPedido #${pedidoActual.id_pedido} pagado por transferencia.`);
-        window.location.href = "cajero.html"; // 🔹 volver al menú cajero
+        window.location.href = "cajero.html";
     } catch (error) {
         alert("❌ No se pudo registrar el pago: " + error.message);
     }

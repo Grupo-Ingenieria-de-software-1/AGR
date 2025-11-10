@@ -33,9 +33,16 @@
 
             <h3 id="totalPedido"></h3>
 
+            <!-- 🆕 SECCIÓN PARA MOSTRAR EL QR -->
+            <div id="seccionQR" class="seccion-qr oculto">
+                <h3>📱 Escanea el código QR para transferir</h3>
+                <img id="imagenQR" src="" alt="Código QR" style="max-width: 300px; margin: 20px auto; display: block;">
+                <p style="text-align: center; color: #666;">Realiza la transferencia y luego confirma el pago</p>
+            </div>
+
             <div class="confirmar">
                 <h3>Confirmar transferencia</h3>
-                <p>Realice la transferencia y confirme para registrar el pago.</p>
+                <p>Después de realizar la transferencia, confirma el pago.</p>
                 <input type="text" id="nombreCliente" placeholder="Nombre del cliente (opcional)">
                 <button id="btnConfirmarPago" class="deshabilitado" disabled>CONFIRMAR PAGO</button>
             </div>
@@ -46,7 +53,6 @@
         </div>
     </section>
 
-    <!-- Vincular el archivo JavaScript -->
     <script src="../auth.js"></script>
     <script src="codigoqr.js"></script>
 </body>

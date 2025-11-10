@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import Response
-from app.routes import pedidos, usuario, mesa, productos, auth, reservas, pagos, ventas
+from app.routes import pedidos, usuario, mesa, productos, auth, reservas, pagos, ventas, pasarela_qr
 from app.database import engine, Base
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
@@ -41,6 +41,7 @@ app.include_router(auth.router)
 app.include_router(reservas.router)
 app.include_router(pagos.router)
 app.include_router(ventas.router)
+app.include_router(pasarela_qr.router)
 
 @app.get("/")
 def read_root():
