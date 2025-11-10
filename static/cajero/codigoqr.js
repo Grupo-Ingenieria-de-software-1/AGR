@@ -3,10 +3,9 @@ let mesaValidada = null;
 let pedidoActual = null;
 
 // =======================
-// VOLVER AL ESTADO INICIAL
+// VOLVER AL MENÚ PRINCIPAL
 // =======================
 function volverMenu() {
-    // Limpia los campos y oculta los detalles
     document.getElementById("mesa").value = "";
     document.getElementById("tablaDetalles").innerHTML = "";
     document.getElementById("detallesPedido").classList.add("oculto");
@@ -15,10 +14,6 @@ function volverMenu() {
 
     mesaValidada = null;
     pedidoActual = null;
-
-    // Mostrar nuevamente solo la parte inicial
-    const interfaz = document.querySelector(".menu-principal");
-    interfaz.style.display = "flex";
 
     alert("↩️ Has vuelto al inicio. Puedes validar otra mesa.");
 }
@@ -95,7 +90,9 @@ async function cargarPedidoActivo(numeroMesa) {
     }
 }
 
-// Calcular total si la API no lo devuelve
+// =======================
+// CALCULAR TOTAL DEL PEDIDO
+// =======================
 function calcularTotalPedido(pedido) {
     if (!pedido.detalle_pedido) return 0;
     return pedido.detalle_pedido
@@ -118,7 +115,7 @@ async function confirmarPago() {
     const nuevoPago = {
         id_pedido: pedidoActual.id_pedido,
         monto: parseFloat(monto),
-        metodo_pago: "trasferencia",
+        metodo_pago: "trasferencia", // 🔹 igual que en el Enum del backend
         cliente: cliente
     };
 
@@ -130,12 +127,13 @@ async function confirmarPago() {
         });
 
         const data = await res.json();
+
         if (!res.ok) {
             throw new Error(data.detail || "Error al registrar el pago.");
         }
 
         alert(`✅ Pago registrado correctamente.\nPedido #${pedidoActual.id_pedido} pagado por transferencia.`);
-        volverMenu();
+        window.location.href = "cajero.html"; // 🔹 volver al menú cajero
     } catch (error) {
         alert("❌ No se pudo registrar el pago: " + error.message);
     }
@@ -164,5 +162,7 @@ function deshabilitarBotonPago() {
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("btnValidar").addEventListener("click", validarMesa);
     document.getElementById("btnConfirmarPago").addEventListener("click", confirmarPago);
-    document.getElementById("btnAtras").addEventListener("click", volverMenu);
+    document.getElementById("btnAtras").addEventListener("click", () => {
+        window.location.href = "cajero.html";
+    });
 });
