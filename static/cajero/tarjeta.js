@@ -1,4 +1,8 @@
-const API_URL = "http://127.0.0.1:8000";
+//const API_URL = "http://127.0.0.1:8000";
+
+const API_URL = window.auth.config.API_URL;
+const FRONTEND_URL = window.auth.config.FRONTEND_URL;
+
 let mesaValidada = null;
 let pedidoActual = null;
 
