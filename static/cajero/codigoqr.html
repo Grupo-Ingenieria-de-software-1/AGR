@@ -3,39 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CAJERO - CODIGO QR/TRANSACCIÓN</title>
+    <title>PAGO POR TRANSFERENCIA</title>
     <link rel="stylesheet" href="codigoqr.css">
 </head>
 <body>
-    <!-- MENÚ PRINCIPAL -->
-    <section class="menu-principal">
-        <h1>PAGO CON QR/TRANSACCIÓN</h1>
-        <h2>INGRESE EL NÚMERO DE MESA:</h2>
+    <section class="menu-principal interfaz">
+        <h1>PAGO CON QR / TRANSFERENCIA</h1>
+        <h2>Ingrese el número de mesa:</h2>
+
         <input type="text" id="mesa" placeholder="Número de la mesa" required>
+
         <div class="opciones">
-            <button data-interfaz="validarMesa">VALIDAR</button>
-            <button data-interfaz="pagarqr">PAGAR</button>
+            <button id="btnValidar">VALIDAR MESA</button>
         </div>
-        <div class="detalles"
-            <h2> Detalles del pedido</h2>
+
+        <div id="detallesPedido" class="detalles oculto">
+            <h2>Detalles del pedido</h2>
+
             <table>
                 <thead>
                     <tr>
-                        <th>Detalles del pedido</th>
-                        <th>Total a Pagar</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Subtotal</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <!-- Los datos se cargarán dinámicamente con JavaScript -->
-                </tbody>
+                <tbody id="tablaDetalles"></tbody>
             </table>
-            </h2>
+
+            <h3 id="totalPedido"></h3>
+
+            <div class="confirmar">
+                <h3>Confirmar transferencia</h3>
+                <p>Realice la transferencia y confirme para registrar el pago.</p>
+                <input type="text" id="nombreCliente" placeholder="Nombre del cliente (opcional)">
+                <button id="btnConfirmarPago" class="deshabilitado" disabled>CONFIRMAR PAGO</button>
+            </div>
         </div>
+
         <div class="acciones">
             <button class="btnAtras" id="btnAtras">ATRÁS</button>
         </div>
     </section>
 
+    <!-- Vincular el archivo JavaScript -->
     <script src="codigoqr.js"></script>
 </body>
 </html>
