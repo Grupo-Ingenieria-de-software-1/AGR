@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAGO POR TRANSFERENCIA</title>
+    <link rel="stylesheet" href="efectivo.css">
+</head>
+<body>
+    <section class="menu-principal interfaz">
+        <h1>PAGO CON EFECTIVO</h1>
+        <h2>Ingrese el número de mesa:</h2>
+
+        <input type="text" id="mesa" placeholder="Número de la mesa" required>
+
+        <div class="opciones">
+            <button id="btnValidar">VALIDAR MESA</button>
+        </div>
+
+        <div id="detallesPedido" class="detalles oculto">
+            <h2>Detalles del pedido</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaDetalles"></tbody>
+            </table>
+
+            <h3 id="totalPedido"></h3>
+
+            <div class="confirmar">
+                <h3>Confirmar pago</h3>
+                <p>Reciba el efectivo y devuelva el cambio para registrar el pago.</p>
+                <input type="text" id="nombreCliente" placeholder="Nombre del cliente (opcional)">
+                <button id="btnConfirmarPago" class="deshabilitado" disabled>CONFIRMAR PAGO</button>
+            </div>
+        </div>
+
+        <div class="acciones">
+            <button class="btnAtras" id="btnAtras">ATRÁS</button>
+        </div>
+    </section>
+
+    <!-- Vincular el archivo JavaScript -->
+    <script src="efectivo.js"></script>
+</body>
+</html>

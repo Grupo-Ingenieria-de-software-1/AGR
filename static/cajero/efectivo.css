@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cinzel+Decorative:wght@700&display=swap');
+
+/* ====== ESTILO GLOBAL ====== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  background-color: #eae3cf;
+  color: #3b2b23;
+  padding: 20px;
+}
+
+h1, h2 {
+  font-family: 'Cinzel Decorative', serif;
+  color: #621d0d;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.oculto {
+  display: none !important;
+}
+
+/* ====== CONTENEDOR PRINCIPAL ====== */
+.menu-principal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border-radius: 25px;
+  padding: 50px;
+  width: 95%;
+  max-width: 900px;
+  margin: 40px auto;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+.menu-principal h1 {
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+
+.menu-principal input {
+  width: 60%;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #bba9a0;
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 25px;
+  background-color: #f9f6f0;
+}
+
+/* ====== TABLA DE DETALLES DEL PEDIDO ====== */
+.tabla-pedido {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 30px;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background-color: #9b6330;
+  color: white;
+  text-transform: uppercase;
+}
+
+/* ====== BOTONES ====== */
+button {
+  background-color: #9b6330;
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s, transform 0.2s, opacity 0.3s;
+  margin-top: 25px;
+}
+
+button:hover {
+  background-color: #814f23;
+  transform: scale(1.03);
+}
+
+button:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ====== BOTONES DE ACCIÓN ====== */
+.acciones {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 30px;
+}
+
+.btnAtras,
+.btnConfirmar {
+  background-color: #6b503d;
+  border-radius: 25px;
+  padding: 10px 30px;
+}
+
+.btnAtras:hover,
+.btnConfirmar:hover {
+  background-color: #553d2d;
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 768px) {
+  .menu-principal {
+    padding: 30px 20px;
+  }
+
+  .menu-principal input {
+    width: 90%;
+  }
+
+  .acciones {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+
+  button {
+    width: 100%;
+  }
+}

@@ -116,7 +116,7 @@ function calcularTotalPedido(pedido) {
 }
 
 // =======================
-// CONFIRMAR PAGO POR TRANSFERENCIA
+// CONFIRMAR PAGO POR EFECTIVO
 // =======================
 async function confirmarPago() {
     if (!pedidoActual) {
@@ -130,7 +130,7 @@ async function confirmarPago() {
     const nuevoPago = {
         id_pedido: pedidoActual.id_pedido,
         monto: parseFloat(monto),
-        metodo_pago: "trasferencia", // 🔹 igual que en el Enum del backend
+        metodo_pago: "efectivo", // 🔹 igual que en el Enum del backend
         cliente: cliente
     };
 
@@ -147,7 +147,7 @@ async function confirmarPago() {
             throw new Error(data.detail || "Error al registrar el pago.");
         }
 
-        alert(`✅ Pago registrado correctamente.\nPedido #${pedidoActual.id_pedido} pagado por transferencia.`);
+        alert(`✅ Pago registrado correctamente.\nPedido #${pedidoActual.id_pedido} pagado por efectivo.`);
         window.location.href = "cajero.html"; // 🔹 volver al menú cajero
     } catch (error) {
         alert("❌ No se pudo registrar el pago: " + error.message);
