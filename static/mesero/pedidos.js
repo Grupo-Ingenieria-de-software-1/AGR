@@ -297,8 +297,9 @@ function actualizarCarrito() {
     });
 }
 
+
 // ======================= 
-// CONFIRMAR PEDIDO 
+// CONFIRMAR PEDIDO (CON ID DE USUARIO DE LA SESIÓN)
 // ======================= 
 function confirmarPedido() {
     if (!mesaValidada) {
@@ -311,7 +312,16 @@ function confirmarPedido() {
         return;
     }
 
-    const id_usuario = 1;
+    // Obtener el usuario de la sesión actual
+    const usuarioActual = window.auth.getUsuarioActual();
+    
+    // Validar que exista el usuario en sesión
+    if (!usuarioActual || !usuarioActual.id_usuario) {
+        alert("⚠️ Error: No se pudo identificar el usuario. Por favor, inicie sesión nuevamente.");
+        cerrarSesion();
+        return;
+    }
+
     const detalles = carrito.map(p => ({
         id_producto: p.id_producto,
         cantidad: p.cantidad,
@@ -320,10 +330,12 @@ function confirmarPedido() {
 
     const pedido = {
         id_mesa: mesaValidada,
-        id_usuario,
+        id_usuario: usuarioActual.id_usuario,  // ✅ Usar el ID del usuario logueado
         observaciones: "",
         detalles
     };
+
+    console.log("📝 Creando pedido con usuario:", usuarioActual.nombre, "ID:", usuarioActual.id_usuario);
 
     fetch(`${API_URL}/pedidos/`, {
             method: "POST",
@@ -422,15 +434,26 @@ async function cargarPedidoParaEditar(numeroMesa) {
 
         // Configurar el botón de guardar cambios
         document.getElementById("btnGuardarCambios").onclick = async () => {
+            // Obtener el usuario de la sesión actual
+            const usuarioActual = window.auth.getUsuarioActual();
+            
+            if (!usuarioActual || !usuarioActual.id_usuario) {
+                alert("⚠️ Error: No se pudo identificar el usuario.");
+                cerrarSesion();
+                return;
+            }
+
             const nuevoPedido = {
                 id_mesa: pedido.id_mesa, // Usar el id_mesa original del pedido
-                id_usuario: parseInt(document.getElementById("usuarioEditar").value),
+                id_usuario: usuarioActual.id_usuario, // ✅ Usar el ID del usuario logueado
                 observaciones: document.getElementById("observacionesEditar").value,
                 detalles: pedido.detalle_pedido.map((d) => ({
                     id_producto: d.id_producto,
                     cantidad: parseInt(document.getElementById(`cant_${d.id_producto}`).value),
                 })),
             };
+
+            console.log("📝 Actualizando pedido con usuario:", usuarioActual.nombre, "ID:", usuarioActual.id_usuario);
 
             try {
                 const resp = await fetch(`${API_URL}/pedidos/${pedido.id_pedido}`, {

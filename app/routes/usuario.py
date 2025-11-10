@@ -36,3 +36,5 @@ def crear_usuario(usuario: schemas.UsuarioCreate, db: Session= Depends(get_db)):
    db.commit()
    db.refresh(db_usuario)
    return db_usuario
+
+
