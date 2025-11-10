@@ -1,4 +1,8 @@
-const API_URL = "http://127.0.0.1:8000";
+//const API_URL = "http://127.0.0.1:8000";
+
+const API_URL = window.auth.config.API_URL;
+const FRONTEND_URL = window.auth.config.FRONTEND_URL;
+
 let carrito = [];
 let categoriaActual = null;
 let mesaValidada = null; // Guarda el id_mesa
@@ -371,10 +375,8 @@ async function cargarProductos() {
 // CERRAR SESIÓN 
 // ======================= 
 function cerrarSesion() {
-    if (confirm("¿Seguro que deseas cerrar sesión?")) {
-        alert("Sesión cerrada");
-        volverMenu();
-    }
+
+    window.authLogout();
 }
 
 // ======================= 

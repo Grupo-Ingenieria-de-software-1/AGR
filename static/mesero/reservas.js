@@ -1,4 +1,7 @@
-const API_URL = "http://127.0.0.1:8000";
+//const API_URL = "http://127.0.0.1:8000";
+
+const API_URL = window.auth.config.API_URL;
+const FRONTEND_URL = window.auth.config.FRONTEND_URL;
 let filtroActual = "todas";
 
 // ======================= 
@@ -40,6 +43,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+
+    document.getElementById("btnCerrarSesion").addEventListener("click", cerrarSesion);
+
     // Botones volver
     document.getElementById("btnAtras")?.addEventListener("click", () => history.back());
     document.getElementById("btnVolverCrear")?.addEventListener("click", volverMenu);
@@ -72,6 +78,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+
+
+function cerrarSesion() {
+    window.authLogout();
+}
 
 // ======================= 
 // CREAR RESERVA
