@@ -127,7 +127,7 @@ create table if not exists pagos(
 id int auto_increment primary key,
 id_pedido int not null,
 monto decimal(10,2) not null,  -- se calcula en la app
-metodo_pago enum('efectivo', 'tajeta', 'trasferencia') not null,
+metodo_pago enum('efectivo', 'tarjeta', 'trasferencia') not null,
 fecha datetime default current_timestamp,
 cliente varchar(100),
 foreign key (id_pedido) references pedidos(id_pedido)
@@ -151,4 +151,8 @@ MODIFY COLUMN categoria
 ENUM('entrada', 'fuerte', 'bebida', 'ensalada', 'postre', 'adicion', 'otro') 
 NOT NULL;
 
-select * from usuarios;
+select* from usuarios;
+
+select* from mesas;
+
+

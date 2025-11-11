@@ -105,7 +105,7 @@ class Pago(Base):
     id_pedido = Column(Integer, ForeignKey("pedidos.id_pedido"), nullable=False)
     monto = Column(Numeric(10, 2), nullable=False)
     metodo_pago = Column(
-        Enum('efectivo', 'tajeta', 'trasferencia', name="metodo_pago"),
+        Enum('efectivo', 'tarjeta', 'trasferencia', name="metodo_pago"),
         nullable=False
     )
     fecha = Column(DateTime, server_default=func.now())
