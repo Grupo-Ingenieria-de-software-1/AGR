@@ -1,33 +1,46 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <title>Administrador - Mesas</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Mesas</title>
+
+  <!-- Fuente -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="mesas.css">
 </head>
 <body>
-  <h1>Mesas</h1>
+  <div class="container">
+    <h1>Gestión de Mesas</h1>
 
-  <section>
-    <h2>Crear mesa</h2>
-    <form id="formMesa">
-      <input type="number" id="numero" placeholder="Número (ej: 4)" required><br>
-      <input type="text" id="tipo" placeholder="Tipo (ej: Interior, Terraza)" required><br>
-      <select id="estado">
-        <option value="libre">libre</option>
-        <option value="ocupada">ocupada</option>
-        <option value="reservada">reservada</option>
-      </select><br>
-      <button type="submit">Crear mesa</button>
-    </form>
-  </section>
+    <section class="crear-mesa">
+      <h2>Crear mesa</h2>
+      <form id="formMesa">
+        <input type="number" id="numero" placeholder="Número (ej: 4)" required>
+        <input type="text" id="tipo" placeholder="Tipo (ej: Interior, Terraza)" required>
+        <select id="estado">
+          <option value="libre">Libre</option>
+          <option value="ocupada">Ocupada</option>
+          <option value="reservada">Reservada</option>
+        </select>
+        <button type="submit">Crear mesa</button>
+      </form>
+    </section>
 
-  <hr>
+    <hr>
 
-  <section>
-    <h2>Lista de mesas</h2>
-    <button id="btnCargarMesas">Cargar mesas</button>
-    <ul id="listaMesas"></ul>
-  </section>
+    <section class="lista-mesas">
+      <h2>Lista de mesas</h2>
+      <button id="btnCargarMesas">Ver mesas</button>
+      <ul id="listaMesas"></ul>
+    </section>
+
+    <button class="btnAtras" id="btnAtras">Atrás</button>
+  </div>
 
   <script src="mesas.js"></script>
 </body>

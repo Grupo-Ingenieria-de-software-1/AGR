@@ -47,3 +47,9 @@ async function cargarMesas(){
 
 document.getElementById("btnCargarMesas").addEventListener("click", cargarMesas);
 cargarMesas();
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("btnAtras").addEventListener("click", () => {
+        window.location.href = "admin.html";
+    });
+});
