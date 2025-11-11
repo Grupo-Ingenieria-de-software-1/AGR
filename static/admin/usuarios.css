@@ -1,0 +1,204 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* === FONDO GENERAL === */
+body {
+  background-color: #fdf5dd;
+  font-family: 'Cinzel', serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* === CONTENEDOR PRINCIPAL === */
+.container {
+  background-color: #e8e2d1;
+  border-radius: 20px;
+  width: 85%;
+  max-width: 600px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+/* === TÍTULOS === */
+.header {
+  color: #7c1d1d;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 25px;
+  font-family: 'Cinzel Decorative', serif;
+}
+
+.subheader {
+  color: #4a2c1f;
+  font-size: 1.4rem;
+  margin-top: 40px;
+  margin-bottom: 15px;
+}
+
+/* === FORMULARIO === */
+.form-box {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+input, select {
+  width: 80%;
+  padding: 10px 12px;
+  border: 2px solid #a26b43;
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
+  transition: 0.3s;
+}
+
+input:focus, select:focus {
+  border-color: #7c1d1d;
+}
+
+/* === CONTENEDOR CONTRASEÑA === */
+.password-container {
+  position: relative;
+  width: 80%;
+}
+
+.password-container input {
+  width: 100%;
+  padding-right: 40px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #7c1d1d;
+}
+
+/* === BOTONES === */
+.menu-button {
+  background-color: #a26b43;
+  color: #ffffff;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.menu-button:hover {
+  background-color: #8d5c39;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.btnAtras {
+  position: absolute;
+  bottom: 10px;
+  left: 20px;
+  background-color: #a26b43;
+  color: white;
+  padding: 10px 30px;
+  border: none;
+  border-radius: 20px;
+  font-size: 15px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.btnAtras:hover{
+  background-color: #8d5c39;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* === BOTÓN CERRAR SESIÓN === */
+.btn-cerrar-sesion {
+  position: absolute;
+  bottom: 15px;
+  left: 20px;
+  background-color: #a26b43;
+  color: white;
+  padding: 8px 25px;
+  border: none;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.btn-cerrar-sesion:hover {
+  background-color: #8d5c39;
+  transform: scale(1.05);
+}
+
+/* === LISTA DE USUARIOS === */
+.user-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+  color: #3b2e2a;
+  text-align: left;
+  width: 80%;
+  margin-inline: auto;
+}
+
+.user-list li {
+  background-color: #fffaf0;
+  border: 1px solid #d4b996;
+  border-radius: 10px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+}
+
+/* === DIVISOR === */
+.divider {
+  border: none;
+  height: 2px;
+  background-color: #a26b43;
+  width: 80%;
+  margin: 30px auto;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 600px) {
+  .container {
+    width: 95%;
+    padding: 30px 20px;
+  }
+
+  input, select {
+    width: 100%;
+  }
+
+  .password-container {
+    width: 100%;
+  }
+
+  .menu-button {
+    width: 100%;
+  }
+
+  .btn-cerrar-sesion {
+    position: static;
+    margin-top: 25px;
+  }
+}

@@ -67,3 +67,8 @@ async function cargarUsuarios() { //Aqui se define una funcion asincronica para 
     lista.appendChild(li); //Añade el nuevo elemento (li) al final de la lista ul en la pagina
   });
 }
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("btnAtras").addEventListener("click", () => {
+        window.location.href = "admin.html";
+    });
+});

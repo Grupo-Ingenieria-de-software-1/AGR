@@ -1,0 +1,137 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* === FONDO GENERAL === */
+body {
+  background-color: #fdf5dd;
+  font-family: 'Special Elite', serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* === CONTENEDOR CENTRAL === */
+.container {
+  background-color: #e8e2d1;
+  border-radius: 20px;
+  width: 80%;
+  max-width: 1000px;
+  padding: 60px 0;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+/* === TÍTULO PRINCIPAL === */
+.header {
+  color: #7c1d1d;
+  font-size: 2.3rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+  font-family: 'Cinzel Decorative', serif;
+}
+
+/* === CONTENIDO === */
+.content-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* === TEXTO DE BIENVENIDA === */
+.welcome-text {
+  font-size: 1.8rem;
+  color: #4a2c1f;
+  margin-bottom: 10px;
+  font-family: 'Cinzel', serif;
+}
+
+/* === TEXTO DE INSTRUCCIÓN === */
+.instruction-text {
+  font-size: 1rem;
+  color: #3b2e2a;
+  margin-bottom: 50px;
+  letter-spacing: 0.5px;
+}
+
+/* === BOTONES === */
+.button-grid {
+  display: flex;
+  align-items: center;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 35px;
+  justify-content: center;
+  width: 100%;
+  max-width: 700px;
+}
+
+.menu-button {
+  background-color: #a26b43;
+  color: #ffffff;
+  border: none;
+  width: 260px;
+  height: 110px;
+  font-size: 1.1rem;
+  font-family: 'Arial', sans-serif;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  align-items: center;
+}
+
+.btn-cerrar-sesion {
+  position: absolute;
+  bottom: 10px;
+  left: 20px;
+  background-color: #a26b43;
+  color: white;
+  padding: 10px 30px;
+  border: none;
+  border-radius: 20px;
+  font-size: 15px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.btn-cerrar-sesion:hover {
+  background-color: #8d5c39;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.menu-button:hover {
+  background-color: #8d5c39;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.menu-button:active {
+  transform: scale(0.98);
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .button-grid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .menu-button {
+    width: 80%;
+    height: 90px;
+    font-size: 1rem;
+  }
+
+  .header {
+    font-size: 2rem;
+  }
+}
