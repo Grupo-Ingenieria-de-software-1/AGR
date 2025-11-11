@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Productos</title>
+    <link rel="stylesheet" href="productos.css">
+</head>
+<body>
+    <!-- MENÚ PRINCIPAL -->
+    <section class="menu-principal">
+        <h1>PRODUCTOS</h1>
+        <h2>GESTIÓN DEL MENÚ</h2>
+        <div class="opciones">
+            <button data-interfaz="crearProducto">CREAR PRODUCTO</button>
+            <button data-interfaz="buscarProducto">BUSCAR PRODUCTO</button>
+            <button data-interfaz="eliminarProducto">ELIMINAR PRODUCTO</button>
+            <button data-interfaz="listarProductos">LISTAR PRODUCTOS</button>
+        </div>
+        <div class="acciones">
+            <button class="btnAtras" id="btnAtras">ATRÁS</button>
+            <button class="btn-cerrar-sesion" id="btnCerrarSesion">CERRAR SESIÓN</button>
+        </div>
+    </section>
+
+    <!-- CREAR PRODUCTO -->
+    <section id="crearProducto" class="interfaz oculto">
+        <h2>Crear Nuevo Producto</h2>
+        <div class="formulario">
+            <label for="nombreProducto">Nombre del Producto:</label>
+            <input type="text" id="nombreProducto" placeholder="Ej: Pizza Margarita" required>
+            
+            <label for="precioProducto">Precio:</label>
+            <input type="number" id="precioProducto" placeholder="0.00" step="0.01" min="0" required>
+            
+            <label for="categoriaProducto">Categoría:</label>
+            <select id="categoriaProducto" required>
+                <option value="">Seleccione una categoría</option>
+                <option value="entrada">Entrada</option>
+                <option value="fuerte">Fuerte</option>
+                <option value="bebida">Bebida</option>
+                <option value="ensalada">Ensalada</option>
+                <option value="postre">Postre</option>
+                <option value="adicion">Adición</option>
+            </select>
+            
+            <label for="disponibleProducto">
+                <input type="checkbox" id="disponibleProducto" checked>
+                Producto Disponible
+            </label>
+            
+            <div class="botones-formulario">
+                <button class="btn-atras" id="btnVolverCrear">ATRÁS</button>
+                <button class="btn-confirmar" id="btnGuardarProducto">GUARDAR</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- BUSCAR PRODUCTO -->
+    <section id="buscarProducto" class="interfaz oculto">
+        <h2>Buscar Producto por Nombre</h2>
+        <div class="formulario-busqueda">
+            <label for="nombreProductoBuscar">Nombre del Producto:</label>
+            <input type="text" id="nombreProductoBuscar" placeholder="Ingrese el nombre o parte del nombre" required>
+            <button class="btn-buscar" id="btnBuscarProducto">BUSCAR</button>
+        </div>
+        
+        <div id="resultadoBusqueda" class="oculto">
+            <h3>Resultados de la Búsqueda</h3>
+            <div id="listaResultados"></div>
+        </div>
+        
+        <button class="btn-atras" id="btnVolverBuscar">ATRÁS</button>
+    </section>
+
+    <!-- ELIMINAR PRODUCTO -->
+    <section id="eliminarProducto" class="interfaz oculto">
+        <h2>Eliminar Producto</h2>
+        <div class="formulario-busqueda">
+            <label for="idProductoEliminar">ID del Producto:</label>
+            <input type="number" id="idProductoEliminar" placeholder="Ingrese el ID" min="1" required>
+            <button class="btn-buscar" id="btnBuscarEliminar">BUSCAR</button>
+        </div>
+        
+        <div id="confirmacionEliminar" class="oculto">
+            <h3>¿Está seguro de eliminar este producto?</h3>
+            <div class="producto-detalle">
+                <div class="detalle-item">
+                    <span class="label">ID:</span>
+                    <span id="eliminarId"></span>
+                </div>
+                <div class="detalle-item">
+                    <span class="label">Nombre:</span>
+                    <span id="eliminarNombre"></span>
+                </div>
+                <div class="detalle-item">
+                    <span class="label">Precio:</span>
+                    <span id="eliminarPrecio"></span>
+                </div>
+                <div class="detalle-item">
+                    <span class="label">Categoría:</span>
+                    <span id="eliminarCategoria"></span>
+                </div>
+            </div>
+            <div class="botones-formulario">
+                <button class="btn-cancelar" id="btnCancelarEliminar">CANCELAR</button>
+                <button class="btn-eliminar" id="btnConfirmarEliminar">ELIMINAR</button>
+            </div>
+        </div>
+        
+        <button class="btn-atras" id="btnVolverEliminar">ATRÁS</button>
+    </section>
+
+    <!-- LISTAR PRODUCTOS -->
+    <section id="listarProductos" class="interfaz oculto">
+        <h2>Lista de Productos</h2>
+        
+        <div class="filtros">
+            <label for="filtroCategoria">Filtrar por Categoría:</label>
+            <select id="filtroCategoria">
+                <option value="">Todas las categorías</option>
+                <option value="entrada">Entradas</option>
+                <option value="fuerte">Fuertes</option>
+                <option value="bebida">Bebidas</option>
+                <option value="ensalada">Ensaladas</option>
+                <option value="postre">Postres</option>
+                <option value="adicion">Adiciones</option>
+            </select>
+            <button class="btn-filtrar" id="btnFiltrar">FILTRAR</button>
+        </div>
+        
+        <div id="contenedorProductos">
+            <div id="tablaProductos"></div>
+        </div>
+        
+        <button class="btn-atras" id="btnVolverLista">ATRÁS</button>
+    </section>
+
+    <script src="../auth.js"></script>
+    <script src="productos.js"></script>
+</body>
+</html>
