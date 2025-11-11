@@ -1,11 +1,17 @@
+//const API_URL = "http://127.0.0.1:8000";
+
+const API_URL = window.auth.config.API_URL;
+const FRONTEND_URL = window.auth.config.FRONTEND_URL;
+
 // Esperar a que el DOM esté completamente cargado
 document.addEventListener('DOMContentLoaded', function() {
     const menuButtons = document.querySelectorAll('.menu-button');
 
     // Diccionario de rutas para cada opción
     const routes = {
-        pedido: 'pedidos.html',
-        reservas: 'reservas.html'
+        usuarios: 'usuarios.html',
+        mesas: 'mesas.html',
+        productos: 'productos.html'
     };
 
     // Asignar comportamiento a cada botón
@@ -29,3 +35,13 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('mouseup', () => button.style.transform = 'scale(1)');
     });
 });
+
+document.getElementById("btnCerrarSesion").addEventListener("click", cerrarSesion);
+
+// ======================= 
+// CERRAR SESIÓN 
+// ======================= 
+function cerrarSesion() {
+
+    window.authLogout();
+}
