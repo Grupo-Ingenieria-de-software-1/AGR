@@ -1,4 +1,6 @@
-const API = "http://127.0.0.1:8000";
+//const API = "http://127.0.0.1:8000";
+const API_URL = window.auth.config.API_URL;
+const FRONTEND_URL = window.auth.config.FRONTEND_URL;
 
 // Crear mesa
 document.getElementById("formMesa").addEventListener("submit", async (e) => {

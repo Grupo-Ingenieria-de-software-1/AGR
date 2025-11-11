@@ -1,4 +1,7 @@
-const API_URL = "http://127.0.0.1:8000"; // tu backend FastAPI
+ //const API_URL = "http://127.0.0.1:8000"; // tu backend FastAPI
+
+const API_URL = window.auth.config.API_URL;
+const FRONTEND_URL = window.auth.config.FRONTEND_URL;
 
 // Capturar el formulario y crear usuario; busca el elemento detro del html que tiene el id formUsuario
 // En este caso el <form> de la pagina, asigna un escuchador de eventos al formulario para que se ejecute 
