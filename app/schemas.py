@@ -143,7 +143,7 @@ class ReservaUpdate(BaseModel):
 class PagoCreate(BaseModel):
     id_pedido: int
     monto: Decimal
-    metodo_pago: str  # 'efectivo', 'tarjeta', 'trasferencia'
+    metodo_pago: str  # 'efectivo', 'tarjeta', 'transferencia'
     cliente: Optional[str] = None
 
 

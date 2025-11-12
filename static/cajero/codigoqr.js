@@ -177,7 +177,7 @@ async function confirmarPago() {
     const nuevoPago = {
         id_pedido: pedidoActual.id_pedido,
         monto: parseFloat(monto),
-        metodo_pago: "trasferencia",
+        metodo_pago: "transferencia",
         cliente: cliente
     };
 

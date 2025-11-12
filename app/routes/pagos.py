@@ -62,7 +62,7 @@ def crear_pago(pago: schemas.PagoCreate, db: Session = Depends(get_db)):
         )
     
     # Validar método de pago
-    metodos_validos = ['efectivo', 'tarjeta', 'trasferencia']
+    metodos_validos = ['efectivo', 'tarjeta', 'transferencia']
     if pago.metodo_pago not in metodos_validos:
         raise HTTPException(
             status_code=400,
