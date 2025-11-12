@@ -23,6 +23,7 @@ body {
   padding: 60px 0;
   text-align: center;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+  position: relative;
 }
 
 /* === TÍTULO PRINCIPAL === */
@@ -61,11 +62,11 @@ body {
 
 /* === BOTONES === */
 .button-grid {
-  display: grid;
+  display: flex;
+  align-items: center;
   grid-template-columns: repeat(2, 1fr);
   gap: 35px;
   justify-content: center;
-  align-items: center;
   width: 100%;
   max-width: 700px;
 }
@@ -83,6 +84,7 @@ body {
   transition: all 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 1px;
+  align-items: center;
 }
 
 .menu-button:hover {
@@ -93,6 +95,27 @@ body {
 
 .menu-button:active {
   transform: scale(0.98);
+}
+
+.btn-cerrar-sesion {
+  position: absolute;
+  bottom: 10px;
+  left: 20px;
+  background-color: #a26b43;
+  color: white;
+  padding: 10px 30px;
+  border: none;
+  border-radius: 20px;
+  font-size: 15px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.btn-cerrar-sesion:hover {
+  background-color: #8d5c39;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 /* === RESPONSIVE === */

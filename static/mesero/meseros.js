@@ -1,3 +1,8 @@
+//const API_URL = "http://127.0.0.1:8000";
+
+const API_URL = window.auth.config.API_URL;
+const FRONTEND_URL = window.auth.config.FRONTEND_URL;
+
 // Esperar a que el DOM esté completamente cargado
 document.addEventListener('DOMContentLoaded', function() {
     const menuButtons = document.querySelectorAll('.menu-button');
@@ -29,3 +34,13 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('mouseup', () => button.style.transform = 'scale(1)');
     });
 });
+
+document.getElementById("btnCerrarSesion").addEventListener("click", cerrarSesion);
+
+// ======================= 
+// CERRAR SESIÓN 
+// ======================= 
+function cerrarSesion() {
+
+    window.authLogout();
+}
