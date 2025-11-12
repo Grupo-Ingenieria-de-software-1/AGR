@@ -216,3 +216,4 @@ async def verify_token_endpoint(current_user: dict = Depends(get_current_user)):
 async def logout():
     """Cerrar sesión (el frontend debe eliminar el token)"""
     return {"message": "Sesión cerrada correctamente"}
+
